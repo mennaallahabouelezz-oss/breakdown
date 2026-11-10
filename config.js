@@ -2,6 +2,8 @@
 window.RT_CONFIG = {
   // فارغ = دخول تلقائي بدون كلمة مرور (Anonymous)
   teamEmail: "",
+  // حساب الإدارة (Firebase ▸ Authentication ▸ Users): كلمة مرور هذا الحساب هي كلمة مرور تبويب الإدارة المخفي
+  adminEmail: "admin@radytrans.app",
   firebase: {
     apiKey: "AIzaSyAhp6-oOEO1wf6Wy9MrhN-BT_KjmVbtrJM",
     authDomain: "radytrans-breakdowns.firebaseapp.com",

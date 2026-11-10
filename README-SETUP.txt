@@ -1,17 +1,19 @@
-RADY TRANS - Breakdown App (Firebase shared database, NO password for users)
+RADY TRANS - Breakdown App (Firebase shared database)
+
+USERS: no password. Every device signs in automatically (Anonymous).
+ADMIN: hidden tab. Tap the Rady Trans logo (top right) 5 times quickly -> enter the admin password.
 
 A) Firebase (once)
- 1. console.firebase.google.com -> your project (or Add project).
- 2. Build > Authentication > Get started > Sign-in method > "Anonymous" > Enable > Save.
- 3. Build > Firestore Database > Create database (production mode, any region).
-    Rules tab > paste the contents of firestore.rules > Publish.
- 4. Project settings (gear) > General > Your apps > Web (</>) > register app > copy the firebaseConfig values.
- 5. Open config.js and paste the values (leave teamEmail empty).
+ 1. Authentication > Sign-in method:  Anonymous = Enabled  AND  Email/Password = Enabled.
+ 2. Authentication > Users > Add user:
+        email    = admin@radytrans.app
+        password = (the admin password, e.g. MENNA@2025)
+    (this password is checked by Firebase itself; it is not written anywhere in the app files)
+ 3. Firestore Database > Rules > paste firestore.rules > Publish.
+ 4. config.js: keep teamEmail empty; adminEmail must equal the email in step 2 AND in firestore.rules.
 
-B) Netlify
- Netlify > your site > Deploys > drag & drop THIS whole folder.
- Then Firebase > Authentication > Settings > Authorized domains: add your Netlify domain (xxxx.netlify.app).
+B) Upload to GitHub (repo "breakdown"): Add file > Upload files > drag ALL the files and the lib folder > Commit.
 
-C) Phones
- Open the site in Chrome > menu > "Install app" / "Add to Home screen" (iPhone: Safari > Share > Add to Home Screen).
- No login screen. Old records saved on a device are uploaded automatically the first time.
+C) Admin: upload the cars workbook
+ Open the app > tap the logo 5 times > password > "الإدارة" tab > choose the Excel file >
+ check the customer names > "حفظ واستبدال الكشف القديم". Re-upload any time: the old one is replaced.

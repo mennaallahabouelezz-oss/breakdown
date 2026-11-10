@@ -79,34 +79,63 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 .ov p{margin:0 0 10px;color:var(--mut);font-size:14px;word-break:break-all}
 .ov button,.ov a{display:block;width:100%;font:inherit;font-weight:700;border-radius:10px;padding:10px;margin-top:8px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;text-align:center}
 .ov .wa,.ov .go{background:#25a244;border-color:#25a244;color:#fff}
-/* ===== PDF sheet (hidden, landscape) ===== */
-#sheetWrap{position:fixed;left:-10000px;top:0;width:1123px;direction:rtl}
-#sheet{width:1123px;min-height:794px;background:#fff;color:#142033;font-family:Tahoma,"Segoe UI","Noto Naskh Arabic","Noto Sans Arabic",Arial,sans-serif;font-size:15px;line-height:1.5;padding:22px 28px;display:flex;flex-direction:column;gap:12px}
-#sheet .hero{display:flex;gap:12px}
-#sheet .hero>div{flex:1;border:1px solid #dfe5ef;border-top:4px solid #0c2a6b;border-radius:10px;padding:8px 14px;background:#f7f9fd}
-#sheet .hero small{display:block;color:#5d6b82;font-size:12.5px;line-height:1.3}
-#sheet .hero b{display:block;font-size:20px;color:#0c2a6b;line-height:1.35}
-#sheet .hero .r{border-top-color:#d71f26}#sheet .hero .r b{color:#d71f26}
-#sheet .hero .op{background:#fdecec;border-color:#f0b4b7;border-top-color:#d71f26}#sheet .hero .op b{color:#d71f26}
-#sheet .hero .cl{background:#e8f6ee;border-color:#a9d9bd;border-top-color:#18864b}#sheet .hero .cl b{color:#18864b}
+/* ===== PDF sheet (hidden, A4 portrait, same design as the approved sample) ===== */
+#sheetWrap{position:fixed;left:-10000px;top:0;width:794px;direction:rtl}
+#sheet{width:794px;min-height:1123px;background:#fff;color:#142033;font-family:Tahoma,"Segoe UI","Noto Naskh Arabic","Noto Sans Arabic",Arial,sans-serif;font-size:15px;line-height:1.45;display:flex;flex-direction:column}
+#sheet .hd{flex:none;background:linear-gradient(90deg,#061b4a,#0c2a6b);color:#fff;height:115px;padding:0 35px;display:flex;align-items:center;gap:16px;border-bottom:5px solid #d91e25}
+#sheet .hd .lg{width:72px;height:72px;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none}
+#sheet .hd .lg img{width:66px;height:66px;display:block}
+#sheet .hd .tt{flex:1;min-width:0}
+#sheet .hd h1{margin:0;font-size:28px;line-height:1.3;font-weight:700}
+#sheet .hd .sub{font-size:14.5px;opacity:.92;direction:ltr;text-align:right;line-height:1.4}
+#sheet .hd .dt{text-align:left;flex:none}
+#sheet .hd .dt small{display:block;font-size:13px;opacity:.9;line-height:1.4}
+#sheet .hd .dt b{display:block;font-size:15px;line-height:1.4}
+#sheet .bd{flex:1;display:flex;flex-direction:column;gap:14px;padding:22px 35px 0}
+#sheet .hero{display:flex;gap:12px;flex:none}
+#sheet .hero>div{flex:1;min-width:0;border:1px solid #dfe5ef;border-top:4px solid #0c2a6b;border-radius:12px;padding:7px 16px 9px;background:#f8f9fd}
+#sheet .hero small{display:block;color:#5d6b82;font-size:13px;line-height:1.4}
+#sheet .hero b{display:block;font-size:22px;color:#0c2a6b;line-height:1.35;word-wrap:break-word}
+#sheet .hero .r{border-top-color:#d91e25}#sheet .hero .r b{color:#d91e25}
+#sheet .hero .op{border-top-color:#d91e25}#sheet .hero .op b{color:#d91e25}
 #sheet .sec{display:flex;flex-direction:column;gap:8px}
 #sheet .grow{flex:1}
-#sheet h2{margin:0;font-size:16px;color:#0c2a6b;border-right:5px solid #d71f26;padding-right:10px;line-height:1.3;background:#eef2fa;border-radius:6px;padding:5px 12px 5px 10px}
-#sheet .tiles{display:grid;gap:10px}
-#sheet .t4{grid-template-columns:repeat(4,1fr)}
-#sheet .tile{border:1px solid #dfe5ef;border-radius:8px;padding:6px 12px;background:#fff}
-#sheet .tile small{display:block;color:#5d6b82;font-size:12px;line-height:1.3}
-#sheet .tile div{font-size:16px;font-weight:600;word-wrap:break-word;white-space:pre-wrap}
-#sheet .box{flex:1;min-height:60px;border:1px solid #dfe5ef;border-radius:8px;padding:10px 14px;white-space:pre-wrap;word-wrap:break-word;font-size:15.5px;background:#fff}
-#sheet .row2{display:flex;gap:14px;align-items:stretch}
-#sheet .row2>.sec{min-width:0}
-#sheet .p1{flex:1}#sheet .p2{flex:2}
-#sheet .t2{grid-template-columns:1fr 1fr}
+#sheet h2{margin:0;font-size:18px;color:#0c2a6b;border-right:5px solid #d91e25;padding-right:10px;line-height:1.35}
+#sheet table{width:100%;border-collapse:collapse;table-layout:fixed}
+#sheet td{border:2px solid #e1e7f2;padding:6px 12px;height:38px;font-size:15px;vertical-align:middle;word-wrap:break-word;overflow-wrap:anywhere}
+#sheet td.l{background:#edf1fa;color:#0c2a6b;font-weight:700;font-size:15.5px;width:22%}
+#sheet td.v{width:28%}
+#sheet .box{flex:1;min-height:70px;border:1px solid #dfe5ef;border-radius:12px;padding:12px 16px;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;font-size:15px;background:#fff}
+#sheet .dur{display:flex;gap:12px}
+#sheet .dur>div{flex:1;background:#ecf1fc;border-radius:12px;padding:9px 12px;text-align:center}
+#sheet .dur small{display:block;color:#5d6b82;font-size:13px;line-height:1.4}
+#sheet .dur b{display:block;font-size:19px;color:#0c2a6b;line-height:1.4}
+#sheet .sig{display:flex;gap:40px;margin-top:26px;flex:none}
+#sheet .sig>div{flex:1;border-top:1.5px solid #aab4c6;padding-top:8px;text-align:center;color:#5d6b82;font-size:14px}
+#sheet .ft{flex:none;margin-top:14px;border-top:1px solid #dfe5ef;padding:12px 35px 16px;display:flex;justify-content:space-between;font-size:13px;color:#5d6b82}
+/* ===== date control, customer field, hidden admin tab ===== */
+.dtc{position:relative}
+.dtc .dd{direction:ltr;text-align:center}
+.dtc .cal{padding:5px 8px}
+.dtc .nat{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;left:0;bottom:0}
+@media(min-width:900px){.g3.a.c4{grid-template-columns:1fr 1fr 1fr 1fr}}
+@media(min-width:640px) and (max-width:899px){.g3.a.c4{grid-template-columns:1fr 1fr}}
+.cust-hint{font-size:12px;min-height:15px;color:var(--ok);font-weight:600}
+.cust-hint.e{color:#b45309}
+.admt{width:100%;border-collapse:collapse;font-size:14px}
+.admt th,.admt td{border:1px solid var(--line);padding:5px 8px;text-align:right}
+.admt th{background:var(--soft);color:var(--navy)}
+.admt input{min-height:32px;padding:3px 8px}
+.abar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.abar button{font:inherit;font-weight:700;border-radius:10px;padding:9px 18px;min-height:42px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.abar .pri{background:var(--red);border-color:var(--red);color:#fff}
+.abar button:disabled{opacity:.6}
+.mut{color:var(--mut);font-size:13px;margin:0 0 8px}
 </style>
 </head>
 <body>
 <div class="top"><div class="logo"><img id="logoImg" alt=""></div><div><b>نظام بلاغات الأعطال الخارجية</b><span>Rady Trans for Heavy Transport &amp; Oil Services</span></div></div>
-<div class="tabs"><button id="tabNew" class="on" type="button">بلاغ جديد</button><button id="tabList" type="button">البلاغات<b id="cnt">0</b></button><span id="pill" style="display:none"></span></div>
+<div class="tabs"><button id="tabNew" class="on" type="button">بلاغ جديد</button><button id="tabList" type="button">البلاغات<b id="cnt">0</b></button><button id="tabAdm" type="button" style="display:none">⚙ الإدارة</button><span id="pill" style="display:none"></span></div>
 <div id="inapp" style="display:none;background:#fff3cd;color:#664d03;padding:8px 16px;font-size:13px;text-align:center;border-bottom:1px solid #ffe69c">أنت تفتح الصفحة من داخل متصفح تطبيق (مثل واتساب). للحصول على أفضل أداء وللتنزيل وإضافتها للشاشة الرئيسية: اضغط ⋮ ثم «فتح في Chrome».</div>
 <noscript><div style="padding:16px;text-align:center;color:#b00">يجب تفعيل JavaScript لتعمل الصفحة.</div></noscript>
 <div id="msg"></div>
@@ -117,9 +146,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 <form id="f" autocomplete="off" novalidate>
 
 <div class="card"><h2>بيانات بلاغ العطل</h2>
- <div class="g3 a">
+ <div class="g3 a c4">
   <div><label class="f">مهندس الاستقبال المسئول<select id="eng"></select></label><input id="engOther" type="text" placeholder="اكتب اسم المهندس" style="display:none;margin-top:6px"></div>
   <label class="f"><span>رقم السيارة <i class="rq">*</i></span><input id="plate" type="text" autocapitalize="characters"></label>
+  <div><label class="f">العميل <small style="font-weight:400">(يُملأ تلقائيًا من كشف السيارات)</small><input id="cust" type="text"></label><div class="cust-hint" id="custHint"></div></div>
   <label class="f">اسم السائق<input id="drv" type="text"></label>
  </div>
  <div class="g3 b">
@@ -145,6 +175,20 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 </form>
 </section>
 
+<section id="vAdm" style="display:none">
+ <div class="card"><h2>كشف السيارات الحالي</h2><div id="admInfo"></div></div>
+ <div class="card"><h2>رفع كشف جديد (يستبدل القديم)</h2>
+  <p class="mut">اختر ملف Excel المحدّث (مثل final_statement). عند الضغط على «حفظ» يُحذف الكشف القديم ويحل الجديد محله عند جميع المستخدمين.</p>
+  <input id="admFile" type="file" accept=".xlsx,.xlsm,.xls">
+ </div>
+ <div class="card"><h2>اسم العميل الذي يظهر في التقرير</h2>
+  <p class="mut">العميل يُؤخذ من عمود «القسم» حسب رقم السيارة. يمكنك كتابة الاسم الذي تريده أن يظهر في التقرير لكل قسم. سيارات القسم Trip يُؤخذ لها العميل من خلية يوم البلاغ.</p>
+  <div style="overflow-x:auto"><table class="admt"><thead><tr><th>القسم في الكشف</th><th>عدد السيارات</th><th>الاسم في التقرير</th></tr></thead><tbody id="admSecs"></tbody></table></div>
+ </div>
+ <div class="card"><h2>اختبار</h2><input id="admTest" type="text" placeholder="اكتب رقم سيارة لتعرف العميل"><div id="admTestOut" style="margin-top:6px;font-weight:700"></div></div>
+ <div class="abar"><button type="button" id="admSave" class="pri">حفظ واستبدال الكشف القديم</button><button type="button" id="admOut">إغلاق الإدارة</button></div>
+</section>
+
 <section id="vList" style="display:none">
  <div class="flt"><button type="button" data-f="all" class="on">الكل</button><button type="button" data-f="open">مفتوح</button><button type="button" data-f="closed">تم الانتهاء</button><input id="q" type="search" placeholder="بحث برقم السيارة أو السائق أو المهندس"></div>
  <div id="list"></div>
@@ -160,6 +204,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 <div class="ov" id="pwd"><div class="bx"><h3>كلمة مرور الفريق</h3><p id="pwdMsg">اكتب كلمة المرور لمزامنة البلاغات مع باقي المستخدمين (مرة واحدة على هذا الجهاز).</p>
  <input id="pwdIn" type="password" autocomplete="off" placeholder="كلمة المرور">
  <button type="button" class="go" id="pwdOk">دخول</button><button type="button" id="pwdNo">العمل على هذا الجهاز فقط</button></div></div>
+
+<div class="ov" id="admDlg"><div class="bx"><h3>الإدارة</h3><p id="admMsg" style="color:#d71f26;min-height:18px"></p>
+ <input id="admPw" type="password" autocomplete="off" placeholder="كلمة المرور">
+ <button type="button" class="go" id="admGo">دخول</button><button type="button" id="admCancel">إلغاء</button></div></div>
 
 <div id="sheetWrap"><div id="sheet"></div></div>
 
@@ -186,6 +234,7 @@ const safeName=s=>String(s).trim().replace(/[\\\/:*?"<>|\r\n\t]+/g,'-').replace(
 const p2=n=>String(n).padStart(2,'0');
 function toast(t,k){const m=$('msg');m.textContent=t;m.className=k||'';m.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>m.style.display='none',k==='ok'?3500:5000)}
 const fmtT=t=>{if(!t)return '';const h=t.h%12||12;return `${h}:${p2(t.mi)} ${t.h>=12?'م':'ص'}`};
+const fmtD=o=>o?`${o.d}/${o.m}/${o.y}`:'';
 const fmtDT=o=>o?`${o.d}/${o.m}/${o.y}${o.t?' — '+fmtT(o.t):''}`:'';
 const closed=d=>!!(d.mov&&d.end&&String(d.fix||'').trim()&&String(d.tech||'').trim());
 const fname=d=>`${safeName(d.plate)}_${d.rep.d}-${d.rep.m}-${d.rep.y}.pdf`;
@@ -194,24 +243,43 @@ const dayOf=o=>new Date(o.y,o.m-1,o.d).getTime();
 const tsOf=o=>new Date(o.y,o.m-1,o.d,o.t?o.t.h:0,o.t?o.t.mi:0).getTime();
 const earlier=(a,b)=>(a.t&&b.t)?tsOf(a)<tsOf(b):dayOf(a)<dayOf(b);
 
-/* ---------- date + time control (native calendar and clock pickers) ---------- */
+/* ---------- date (day/month/year, no leading zeros needed) + time control ---------- */
+const DIG_AR='٠١٢٣٤٥٦٧٨٩',DIG_FA='۰۱۲۳۴۵۶۷۸۹';
+const latinDigits=x=>String(x==null?'':x).replace(/[٠-٩]/g,c=>DIG_AR.indexOf(c)).replace(/[۰-۹]/g,c=>DIG_FA.indexOf(c));
+function parseDMY(str){   /* 5/9 · 5/9/26 · 05-09-2026 · 5 9 · 0509 · 05092026  →  {d,m,y} */
+  const s0=latinDigits(str).trim();if(!s0)return null;
+  let p;
+  if(/^\d+$/.test(s0)){
+    if(s0.length===4)p=[s0.slice(0,2),s0.slice(2)];
+    else if(s0.length===6||s0.length===8)p=[s0.slice(0,2),s0.slice(2,4),s0.slice(4)];
+    else return{bad:1};
+  }else p=s0.split(/[\s\/\\\-.,،]+/).filter(Boolean);
+  if(p.length<2||p.length>3||!p.every(x=>/^\d+$/.test(x)))return{bad:1};
+  const n=new Date();let d=+p[0],m=+p[1],y=n.getFullYear();
+  if(p.length===3){if(p[2].length===3||p[2].length>4)return{bad:1};y=+p[2];if(p[2].length<=2)y+=2000}
+  if(y<2000||y>2100||m<1||m>12||d<1||d>new Date(y,m,0).getDate())return{bad:1};
+  return{d,m,y};
+}
 const DT={};
 function mkDT(key,id){
   const box=$(id);
-  box.innerHTML='<div class="dtc"><input type="date" class="dd" aria-label="التاريخ"><button type="button" class="td">اليوم</button><input type="time" class="tt" aria-label="الوقت"><button type="button" class="now">الآن</button></div><div class="hint"></div>';
-  const dd=box.querySelector('.dd'),tt=box.querySelector('.tt'),hint=box.querySelector('.hint');
-  box.querySelector('.td').onclick=()=>{const n=new Date();dd.value=`${n.getFullYear()}-${p2(n.getMonth()+1)}-${p2(n.getDate())}`;dd.classList.remove('bad');refresh()};
+  box.innerHTML='<div class="dtc"><input type="text" class="dd" inputmode="decimal" autocomplete="off" placeholder="5/9/2026" aria-label="التاريخ (يوم/شهر/سنة)"><button type="button" class="cal" title="اختيار من التقويم">📅</button><button type="button" class="td">اليوم</button><input type="time" class="tt" aria-label="الوقت"><button type="button" class="now">الآن</button><input type="date" class="nat" tabindex="-1" aria-hidden="true"></div><div class="hint"></div>';
+  const dd=box.querySelector('.dd'),tt=box.querySelector('.tt'),nat=box.querySelector('.nat'),hint=box.querySelector('.hint');
+  const put=(d,m,y)=>{dd.value=`${d}/${m}/${y}`;dd.classList.remove('bad')};
+  box.querySelector('.td').onclick=()=>{const n=new Date();put(n.getDate(),n.getMonth()+1,n.getFullYear());refresh()};
   box.querySelector('.now').onclick=()=>{const n=new Date();tt.value=`${p2(n.getHours())}:${p2(n.getMinutes())}`;tt.classList.remove('bad');refresh()};
-  function set(o){if(!o){dd.value=tt.value='';return}dd.value=`${o.y}-${p2(o.m)}-${p2(o.d)}`;tt.value=o.t?`${p2(o.t.h)}:${p2(o.t.mi)}`:''}
+  box.querySelector('.cal').onclick=()=>{try{nat.showPicker()}catch(e){try{nat.focus();nat.click()}catch(x){}}};
+  nat.onchange=()=>{if(nat.value){const [y,m,d]=nat.value.split('-').map(Number);put(d,m,y);refresh()}};
+  dd.addEventListener('blur',()=>{const q=parseDMY(dd.value);if(q&&!q.bad){put(q.d,q.m,q.y);refresh()}});
+  function set(o){if(!o){dd.value=tt.value='';return}dd.value=`${o.d}/${o.m}/${o.y}`;tt.value=o.t?`${p2(o.t.h)}:${p2(o.t.mi)}`:''}
   function clear(){dd.value=tt.value='';hint.textContent='';hint.className='hint'}
   function raw(){
-    const dv=dd.value,tv=tt.value;
+    const dv=dd.value.trim(),tv=tt.value;
     if(!dv&&!tv)return{empty:true};
-    if(!dv)return{bad:'اختر التاريخ (اضغط «اليوم» أو اختره من التقويم)'};
-    const [y,m,d]=dv.split('-').map(Number);
-    if(!(y>=2000&&y<=2100))return{bad:'السنة غير صحيحة'};
+    if(!dv)return{bad:'اكتب التاريخ (مثال 5/9/2026) أو اضغط «اليوم»'};
+    const q=parseDMY(dv);if(!q||q.bad)return{bad:'تاريخ غير صحيح — اكتبه هكذا: يوم/شهر/سنة (مثال 5/9/2026)'};
     let t=null;if(tv){const [h,mi]=tv.split(':').map(Number);t={h,mi}}
-    return{d,m,y,t};
+    return{d:q.d,m:q.m,y:q.y,t};
   }
   DT[key]={els:[dd,tt],raw,set,clear,hint,mark(b){[dd,tt].forEach(x=>x.classList.toggle('bad',b))}};
 }
@@ -229,7 +297,7 @@ function resolve(){
 }
 function read(){
   const eng=$('eng').value==='__other'?$('engOther').value.trim():$('eng').value;
-  return{eng,plate:$('plate').value.trim(),drv:$('drv').value.trim(),place:$('place').value.trim(),det:$('det').value.trim(),stop:$('stop').value,fix:$('fix').value.trim(),tech:$('tech').value.trim()};
+  return{eng,plate:$('plate').value.trim(),cust:$('cust').value.trim(),drv:$('drv').value.trim(),place:$('place').value.trim(),det:$('det').value.trim(),stop:$('stop').value,fix:$('fix').value.trim(),tech:$('tech').value.trim()};
 }
 function refresh(){
   const {res,errs,rm,re}=resolve();
@@ -237,6 +305,7 @@ function refresh(){
     if(e){h.textContent=e[1];h.className='hint e'}else if(res[k]){h.textContent=fmtDT(res[k]);h.className='hint'}else{h.textContent='';h.className='hint'}});
   const f=read(),cl=!rm.empty&&!re.empty&&f.fix&&f.tech;
   $('stat').className='stat'+(cl?' ok':'');$('statTxt').textContent='الحالة: '+(cl?'تم الانتهاء':'مفتوح');
+  updateCust();
 }
 $('f').addEventListener('input',refresh);$('f').addEventListener('change',refresh);
 document.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('input',()=>el.classList.remove('bad')));
@@ -261,7 +330,7 @@ function stLoad(){
   ST.recs=ST.recs||[];ST.dels=ST.dels||[];ST.last=ST.last||0;return ST;
 }
 const dbList=()=>stLoad().recs;
-function flat(d){return{plate:d.plate,driver:d.drv,engineer:d.eng,workshop:wsOf(d),reportDate:fmtDT(d.rep),place:d.place,stop:d.stop,moveDate:fmtDT(d.mov),endDate:fmtDT(d.end),technicians:d.tech,status:closed(d)?'تم الانتهاء':'مفتوح',details:d.det,repair:d.fix}}
+function flat(d){return{plate:d.plate,customer:custOfRec(d),driver:d.drv,engineer:d.eng,workshop:wsOf(d),reportDate:fmtDT(d.rep),place:d.place,stop:d.stop,moveDate:fmtDT(d.mov),endDate:fmtDT(d.end),technicians:d.tech,status:closed(d)?'تم الانتهاء':'مفتوح',details:d.det,repair:d.fix}}
 
 let syncing=false,lastOk=null,offline=false,localOnly=false,authed=false,fdb=null,fauth=null,unsub=null;
 const stamp=()=>{const n=new Date();lastOk=`${n.getHours()%12||12}:${p2(n.getMinutes())}:${p2(n.getSeconds())}`;setPill()};
@@ -345,9 +414,12 @@ function fbStart(){
     fdb.settings({ignoreUndefinedProperties:true,experimentalAutoDetectLongPolling:true,merge:true});
     fauth=firebase.auth();
     fauth.onAuthStateChanged(u=>{
+      if(u&&!u.isAnonymous&&ANON&&!admWanted){fauth.signOut().catch(()=>{});return}   /* admin session left from an earlier visit: always ask for the password again */
       authed=!!u;
-      if(u){localOnly=false;$('pwd').style.display='none';startListen();syncNow()}
-      else{stopListen();if(ANON)autoSignIn();else if(!localOnly)askPw()}
+      if(u){
+        localOnly=false;$('pwd').style.display='none';startListen();startFleetListen();syncNow();
+        if(ANON&&!u.isAnonymous&&admWanted){admOn=true;$('tabAdm').style.display='';admOpen()}
+      }else{stopListen();stopFleetListen();if(ANON){if(!admWanted)autoSignIn()}else if(!localOnly)askPw()}
       setPill();
     });
   }catch(e){console.error('firebase',e);toast('تعذر الاتصال بقاعدة البيانات المشتركة','err')}
@@ -357,25 +429,190 @@ function fbStart(){
   window.addEventListener('offline',setPill);
 }
 
-/* ---------- PDF (landscape, one page) ---------- */
+/* ---------- cars workbook (customer by plate) ---------- */
+const KEYF='rt_fleet_v1';
+const DEF_NAMES={'Air Liquid':'اريليكيد','Halliburton':'هالبيرتون','Bader Elden':'بدرالدين للبترول','Tenaris':'تينارس','Agiba':'عجيبه للبترول'};
+let FLEET=null,FIDX=null,unsubF=null;
+try{FLEET=JSON.parse(localStorage.getItem(KEYF)||'null')}catch(e){}
+function setFleet(o){FLEET=o;FIDX=null;try{localStorage.setItem(KEYF,JSON.stringify(o))}catch(e){}updateCust();if($('vAdm').style.display!=='none')admRender()}
+function plateKey(x){
+  let s=latinDigits(x).replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toUpperCase();
+  return{digits:(s.match(/\d/g)||[]).join(''),letters:s.replace(/[^A-Z\u0621-\u064A]/g,'').split('').sort().join('')};
+}
+function findFleetRow(plate){
+  if(!FLEET||!FLEET.rows)return null;
+  const k=plateKey(plate);if(!k.digits&&!k.letters)return null;
+  if(!FIDX)FIDX=FLEET.rows.map(r=>({r,k:plateKey(r.p)}));
+  let m=FIDX.filter(x=>x.k.digits===k.digits&&x.k.letters===k.letters);
+  if(m.length)return m[0].r;
+  if(k.digits&&!k.letters){m=FIDX.filter(x=>x.k.digits===k.digits);if(m.length===1)return m[0].r}
+  return null;
+}
+const keyTs=k=>{const [d,m,y]=k.split('-').map(Number);return Date.UTC(y,m-1,d)};
+function lookupCustomer(plate,rep){
+  const r=findFleetRow(plate);if(!r)return'';
+  const sec=String(r.s||'').trim();
+  if(/^trip$/i.test(sec)){   /* trip cars: customer is written inside the day's cell */
+    const c=r.c||{};let v=rep?c[`${rep.d}-${rep.m}-${rep.y}`]:'';
+    if(!v){const ks=Object.keys(c).sort((a,b)=>keyTs(a)-keyTs(b));v=ks.length?c[ks[ks.length-1]]:''}
+    return v||'';
+  }
+  const nm=FLEET.names&&FLEET.names[sec];
+  return(nm&&String(nm).trim())||DEF_NAMES[sec]||sec;
+}
+const custOfRec=d=>(d.cust&&String(d.cust).trim())||lookupCustomer(d.plate,d.rep)||'';
+function updateCust(){
+  const c=$('cust'),h=$('custHint');if(!c||c.dataset.man)return;
+  const plate=$('plate').value.trim(),rep=resolve().res.rep||null;
+  const v=plate?lookupCustomer(plate,rep):'';c.value=v;
+  if(!plate||!FLEET){h.textContent='';h.className='cust-hint'}
+  else if(v){h.textContent='✔ من كشف السيارات';h.className='cust-hint'}
+  else{h.textContent='لم أجد السيارة في الكشف — اكتب العميل يدويًا';h.className='cust-hint e'}
+}
+$('cust').addEventListener('input',()=>{$('cust').dataset.man=$('cust').value.trim()?'1':''});
+function startFleetListen(){
+  if(unsubF||!fdb)return;
+  unsubF=fdb.collection('settings').doc('fleet').onSnapshot(sn=>{
+    if(sn.exists){const x=sn.data();delete x.srv;setFleet(x)}
+  },err=>{console.warn('fleet',err);unsubF=null;if(!(err&&err.code==='permission-denied'))setTimeout(startFleetListen,10000)});
+}
+function stopFleetListen(){if(unsubF){try{unsubF()}catch(e){}unsubF=null}}
+
+/* ---------- hidden admin tab (opens by tapping the logo 5 times, then password) ---------- */
+let admWanted=false,admOn=false,PEND=null,xlsxP=null;
+function loadXlsx(){
+  if(window.XLSX)return Promise.resolve();
+  if(xlsxP)return xlsxP;
+  xlsxP=new Promise((ok,no)=>{const s=document.createElement('script');s.src='lib/xlsx.core.min.js';s.onload=ok;s.onerror=()=>{xlsxP=null;no(new Error('تعذر تحميل مكتبة Excel — تأكد من الاتصال بالإنترنت'))};document.head.appendChild(s)});
+  return xlsxP;
+}
+const normAr=x=>String(x==null?'':x).replace(/[\u064B-\u065F\u0640]/g,'').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\u00a0/g,' ').trim();
+function hdrKey(c){
+  if(c instanceof Date&&!isNaN(c)){const t=new Date(c.getTime()+12*3600e3);return `${t.getUTCDate()}-${t.getUTCMonth()+1}-${t.getUTCFullYear()}`}
+  if(typeof c==='number'&&c>40000&&c<60000){const t=new Date(Math.round((c-25569)*86400e3));return `${t.getUTCDate()}-${t.getUTCMonth()+1}-${t.getUTCFullYear()}`}
+  const m=latinDigits(c).trim().match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  return m?`${+m[1]}-${+m[2]}-${m[3]}`:null;
+}
+function parseFleetWb(buf){
+  const wb=XLSX.read(buf,{type:'array',cellDates:true});
+  for(const name of wb.SheetNames){
+    const aoa=XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,raw:true,defval:''});
+    const hi=aoa.findIndex(r=>r.some(c=>/رقم\s*السيار/.test(normAr(c))));
+    if(hi<0)continue;
+    const H=aoa[hi];
+    const cp=H.findIndex(c=>/رقم\s*السيار/.test(normAr(c)));
+    const cs=H.findIndex(c=>normAr(c).replace(/\s/g,'')==='القسم');
+    if(cs<0)throw new Error('لم أجد عمود «القسم» في الكشف');
+    const dcols=[];H.forEach((c,i)=>{const k=hdrKey(c);if(k)dcols.push([i,k])});
+    const rows=[];
+    for(let i=hi+1;i<aoa.length;i++){
+      const r=aoa[i],pl=String(r[cp]==null?'':r[cp]).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
+      if(!pl)continue;
+      const sec=String(r[cs]==null?'':r[cs]).replace(/\u00a0/g,' ').trim(),o={p:pl,s:sec};
+      if(/^trip$/i.test(sec)){
+        const c={};dcols.forEach(([ci,k])=>{const m=[...String(r[ci]==null?'':r[ci]).matchAll(/\(([^()]*)\)?/g)];const v=m.length?m[m.length-1][1].trim():'';if(v)c[k]=v});
+        if(Object.keys(c).length)o.c=c;
+      }
+      rows.push(o);
+    }
+    if(!rows.length)throw new Error('الكشف فارغ');
+    return{rows};
+  }
+  throw new Error('لم أجد عمود «رقم السيارة» في الملف — تأكد أنه نفس شكل الكشف المعتاد');
+}
+const fmtStamp=t=>{if(!t)return'—';const n=new Date(t);return `${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()} ${n.getHours()%12||12}:${p2(n.getMinutes())} ${n.getHours()>=12?'م':'ص'}`};
+function admRender(){
+  const F=PEND||FLEET,rows=(F&&F.rows)||[];
+  $('admInfo').innerHTML=F?`<b>${esc(F.fileName||'—')}</b><br>${PEND?'<span style="color:#d71f26;font-weight:700">⚠ لم يُحفظ بعد — راجع الأسماء ثم اضغط «حفظ واستبدال الكشف القديم»</span>':'آخر رفع: '+esc(fmtStamp(F.uploadedAt))}<br>عدد السيارات: <b>${rows.length}</b>`:'لا يوجد كشف مرفوع بعد';
+  const cnt={};rows.forEach(r=>{const k=String(r.s||'').trim()||'—';cnt[k]=(cnt[k]||0)+1});
+  const names=(F&&F.names)||{};
+  $('admSecs').innerHTML=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a]).map(k=>`<tr><td>${esc(k)}</td><td>${cnt[k]}</td><td>${/^trip$/i.test(k)?'<i style="color:#5d6b82">حسب خلية يوم البلاغ</i>':`<input type="text" data-s="${esc(k)}" value="${esc(names[k]||DEF_NAMES[k]||k)}">`}</td></tr>`).join('')||'<tr><td colspan="3">—</td></tr>';
+}
+function admOpen(){admRender();show('adm')}
+(function(){let n=0,t=0;document.querySelector('.top .logo').addEventListener('click',()=>{
+  const now=Date.now();if(now-t>3000)n=0;t=now;
+  if(++n>=5){n=0;if(!API||!ANON||!fauth)return;
+    if(admOn){admOpen();return}
+    $('admPw').value='';$('admMsg').textContent='';$('admDlg').style.display='flex';setTimeout(()=>$('admPw').focus(),50)}
+})})();
+$('admCancel').onclick=()=>{$('admDlg').style.display='none'};
+$('admPw').addEventListener('keydown',e=>{if(e.key==='Enter')$('admGo').click()});
+$('admGo').onclick=async()=>{
+  const v=$('admPw').value;if(!v||!fauth)return;
+  const b=$('admGo');b.disabled=true;$('admMsg').textContent='';admWanted=true;
+  try{await fauth.signInWithEmailAndPassword((CFG.adminEmail||'').trim(),v);$('admDlg').style.display='none'}
+  catch(e){admWanted=false;const c=e&&e.code||'';
+    $('admMsg').textContent=BADPW.includes(c)?'كلمة المرور غير صحيحة':c==='auth/operation-not-allowed'?'فعّل Email/Password في Firebase ثم أنشئ حساب الإدارة (راجع الشرح)':c==='auth/network-request-failed'?'لا يوجد اتصال بالإنترنت':c==='auth/too-many-requests'?'محاولات كثيرة، انتظر قليلًا ثم حاول':'تعذر الدخول: '+(c||(e&&e.message)||'')}
+  finally{b.disabled=false}
+};
+$('tabAdm').onclick=()=>admOpen();
+$('admOut').onclick=async()=>{admWanted=false;admOn=false;PEND=null;$('tabAdm').style.display='none';show('new');try{await fauth.signOut()}catch(e){}};
+$('admFile').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{
+    toast('جارٍ قراءة الملف...');await loadXlsx();
+    const r=parseFleetWb(await f.arrayBuffer());
+    if(JSON.stringify(r.rows).length>900000)throw new Error('الكشف كبير جدًا');
+    PEND={fileName:f.name,rows:r.rows,names:Object.assign({},FLEET&&FLEET.names)};
+    admRender();toast(`تمت قراءة ${r.rows.length} سيارة — راجع الأسماء ثم اضغط «حفظ»`,'ok');
+  }catch(x){PEND=null;admRender();toast(x&&x.message||'تعذر قراءة الملف','err')}
+  e.target.value='';
+};
+$('admSave').onclick=async()=>{
+  const F=PEND||FLEET;if(!F||!F.rows||!F.rows.length){toast('اختر ملف الكشف أولًا','err');return}
+  const names={};document.querySelectorAll('#admSecs input[data-s]').forEach(i=>{const v=i.value.trim();if(v)names[i.dataset.s]=v});
+  const doc={fileName:F.fileName||'',uploadedAt:PEND?Date.now():(F.uploadedAt||Date.now()),count:F.rows.length,rows:F.rows,names};
+  const b=$('admSave');b.disabled=true;
+  try{
+    await withTimeout(fdb.collection('settings').doc('fleet').set(Object.assign({},doc,{srv:TS()})),30000);
+    PEND=null;setFleet(doc);toast('تم حفظ الكشف واستبدال القديم','ok');
+  }catch(e){toast(e&&e.code==='permission-denied'?'غير مسموح بالحفظ — تأكد من حساب الإدارة ومن نشر قواعد Firestore الجديدة':'تعذر الحفظ — تأكد من الاتصال بالإنترنت','err')}
+  finally{b.disabled=false}
+};
+$('admTest').addEventListener('input',()=>{
+  const v=$('admTest').value.trim(),o=$('admTestOut');
+  if(!v){o.textContent='';return}
+  const saved=FLEET;if(PEND){FLEET=Object.assign({},PEND);FIDX=null}
+  const r=findFleetRow(v),c=lookupCustomer(v,null);
+  if(PEND){FLEET=saved;FIDX=null}
+  o.textContent=r?`القسم: ${r.s} ← العميل في التقرير: ${c||'—'}`:'غير موجودة في الكشف';
+});
+
+/* ---------- PDF (A4 portrait, one page) ---------- */
+const wallMs=o=>Date.UTC(o.y,o.m-1,o.d,o.t?o.t.h:0,o.t?o.t.mi:0);
+function dur(a,b){
+  if(!a||!b)return'—';
+  const mins=Math.round((wallMs(b)-wallMs(a))/60000);if(mins<0)return'—';
+  const D=Math.floor(mins/1440),H=Math.floor(mins%1440/60),M=mins%60,p=[];
+  if(D)p.push(D+' يوم');if(H)p.push(H+' ساعة');if(M)p.push(M+' دقيقة');
+  return p.length?p.join(' و '):'0 دقيقة';
+}
 function build(d){
-  const cl=closed(d);
-  const tile=(l,v)=>`<div class="tile"><small>${l}</small><div>${v}</div></div>`;
+  const cl=closed(d),n=new Date(),today=`${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()}`;
+  const L=t=>`<td class="l">${t}</td>`,V=(v,c)=>`<td class="v"${c?` colspan="${c}"`:''}>${v}</td>`;
+  const tm=o=>dash(o&&o.t?fmtT(o.t):''),dt=o=>dash(fmtD(o));
   return `
-  <div class="hero">
-    <div class="r"><small>رقم السيارة</small><b>${dash(d.plate)}</b></div>
-    <div class="${cl?'cl':'op'}"><small>الحالة</small><b>${cl?'تم الانتهاء':'مفتوح'}</b></div>
-    <div><small>الورشة المسئولة</small><b>${dash(wsOf(d))}</b></div>
-    <div><small>تاريخ ووقت الإبلاغ</small><b>${dash(fmtDT(d.rep))}</b></div>
+  <div class="hd"><div class="lg"><img src="${LOGO}" alt=""></div>
+    <div class="tt"><h1>تقرير عطل خارجي</h1><div class="sub">Rady Trans for Heavy Transport &amp; Oil Services</div></div>
+    <div class="dt"><small>تاريخ التقرير</small><b>${today}</b></div></div>
+  <div class="bd">
+    <div class="hero"><div class="r"><small>رقم السيارة</small><b>${dash(d.plate)}</b></div><div><small>العميل</small><b>${dash(custOfRec(d))}</b></div><div class="${cl?'':'op'}"><small>الحالة</small><b>${cl?'تم الانتهاء':'مفتوح'}</b></div></div>
+    <div class="sec"><h2>بيانات البلاغ</h2><table>
+      <tr>${L('المهندس المسئول')}${V(dash(d.eng))}${L('مكان العطل')}${V(dash(d.place))}</tr>
+      <tr>${L('تاريخ الإبلاغ')}${V(dt(d.rep))}${L('وقت الإبلاغ')}${V(tm(d.rep))}</tr>
+      ${(d.drv||d.stop)?`<tr>${L('اسم السائق')}${V(dash(d.drv))}${L('توقف السيارة نهائيًا')}${V(d.stop==='نعم'?'<b style="color:#d91e25">نعم</b>':dash(d.stop))}</tr>`:''}</table></div>
+    <div class="sec grow"><h2>تفاصيل العطل</h2><div class="box">${dash(d.det)}</div></div>
+    <div class="sec"><h2>التحرك للعطل</h2><table>
+      <tr>${L('تاريخ التحرك')}${V(dt(d.mov))}${L('وقت التحرك')}${V(tm(d.mov))}</tr>
+      <tr>${L('الورشة المسئولة')}${V(dash(wsOf(d)),3)}</tr></table></div>
+    <div class="sec"><h2>الانتهاء والإصلاح</h2><table>
+      <tr>${L('تاريخ الانتهاء')}${V(dt(d.end))}${L('وقت الانتهاء')}${V(tm(d.end))}</tr>
+      <tr>${L('الفني / الفنيون')}${V(dash(d.tech),3)}</tr></table></div>
+    <div class="sec grow"><h2>تفاصيل الإصلاح</h2><div class="box">${dash(d.fix)}</div></div>
+    <div class="sec"><h2>ملخص المدد</h2><div class="dur"><div><small>من الإبلاغ حتى التحرك</small><b>${dur(d.rep,d.mov)}</b></div><div><small>إجمالي مدة العطل (من الإبلاغ حتى الانتهاء)</small><b>${dur(d.rep,d.end)}</b></div></div></div>
+    <div class="sig"><div>توقيع المهندس المسئول</div><div>اعتماد الإدارة</div></div>
   </div>
-  <div class="sec grow"><h2>بيانات بلاغ العطل</h2>
-    <div class="tiles t4">${tile('مهندس الاستقبال',dash(d.eng))}${tile('اسم السائق',dash(d.drv))}${tile('مكان العطل',dash(d.place))}${tile('توقف السيارة نهائيًا على الطريق',d.stop==='نعم'?'<span style="color:#d71f26">نعم</span>':dash(d.stop))}</div>
-    <div class="box"><small style="color:#5d6b82;font-size:12px;display:block">تفاصيل العطل</small>${dash(d.det)}</div></div>
-  <div class="row2">
-    <div class="sec p1"><h2>التحرك للعطل</h2><div class="tiles">${tile('تاريخ ووقت التحرك',dash(fmtDT(d.mov)))}</div></div>
-    <div class="sec p2"><h2>الانتهاء والإصلاح</h2><div class="tiles t2">${tile('تاريخ ووقت الانتهاء',dash(fmtDT(d.end)))}${tile('الفني / الفنيون',dash(d.tech))}</div></div>
-  </div>
-  <div class="sec grow"><h2>تفاصيل الإصلاح</h2><div class="box">${dash(d.fix)}</div></div>`;
+  <div class="ft"><span style="direction:ltr">Rady Trans — Technical Office</span><span>تم إنشاء التقرير بتاريخ ${today}</span></div>`;
 }
 let libsP=null;
 function loadLibs(){
@@ -390,18 +627,19 @@ async function makePdf(r){
   await loadLibs();
   const sh=$('sheet'),wrap=$('sheetWrap');sh.innerHTML=build(r);
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;
-  let W=1123;const setW=w=>{wrap.style.width=w+'px';sh.style.width=w+'px';sh.style.minHeight=(w*0.7071)+'px'};
+  const RATIO=297/210;let W=794;
+  const setW=w=>{wrap.style.width=w+'px';sh.style.width=w+'px';sh.style.minHeight=Math.round(w*RATIO)+'px'};
   setW(W);
-  for(let i=0;i<25&&sh.offsetHeight>W*0.7071+1;i++){W=Math.ceil(W*1.06);setW(W)}
-  const H=sh.offsetHeight,S=Math.min(2,3600/W);
+  for(let i=0;i<30&&sh.offsetHeight>W*RATIO+1;i++){W=Math.ceil(W*1.05);setW(W)}   /* long text: shrink the whole page so it stays on ONE page */
+  const H=sh.offsetHeight,S=Math.min(2,3000/W);
   const cv=await html2canvas(sh,{scale:S,backgroundColor:'#ffffff',useCORS:true,windowWidth:W,scrollX:0,scrollY:0});
-  const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'landscape',compress:true});
-  pdf.addImage(cv.toDataURL('image/jpeg',0.93),'JPEG',0,0,297,Math.min(210,H/W*297),undefined,'FAST');
-  sh.innerHTML='';setW(1123);
+  const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
+  pdf.addImage(cv.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,Math.min(297,H/W*210),undefined,'FAST');
+  sh.innerHTML='';setW(794);
   return pdf;
 }
 function download(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
-function waText(d){const cl=closed(d);return `${cl?'🟢 تم الانتهاء':'🔴 مفتوح'} — بلاغ عطل\nرقم السيارة: ${d.plate}\nالتاريخ: ${fmtDT(d.rep)}${d.place?'\nمكان العطل: '+d.place:''}${wsOf(d)?'\nالورشة: '+wsOf(d):''}`}
+function waText(d){const cl=closed(d);return `${cl?'🟢 تم الانتهاء':'🔴 مفتوح'} — بلاغ عطل\nرقم السيارة: ${d.plate}${custOfRec(d)?'\nالعميل: '+custOfRec(d):''}\nالتاريخ: ${fmtDT(d.rep)}${d.place?'\nمكان العطل: '+d.place:''}${wsOf(d)?'\nالورشة: '+wsOf(d):''}`}
 
 /* ---------- WhatsApp dialog ---------- */
 let dlgState=null;
@@ -454,7 +692,7 @@ $('save').onclick=async()=>{
 
 /* ---------- form state ---------- */
 function newForm(){
-  editing=null;$('f').reset();Object.values(DT).forEach(x=>{x.clear();x.mark(false)});
+  editing=null;$('f').reset();$('cust').dataset.man='';Object.values(DT).forEach(x=>{x.clear();x.mark(false)});
   $('engOther').style.display='none';$('editBar').style.display='none';
   document.querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));refresh();
 }
@@ -464,7 +702,7 @@ function fillForm(d){
   $('f').reset();
   if(ENGINEERS.includes(d.eng)||!d.eng){$('eng').value=d.eng||'';$('engOther').style.display='none'}
   else{$('eng').value='__other';$('engOther').style.display='';$('engOther').value=d.eng}
-  $('plate').value=d.plate||'';$('drv').value=d.drv||'';$('place').value=d.place||'';$('det').value=d.det||'';
+  $('plate').value=d.plate||'';$('cust').value=d.cust||'';$('cust').dataset.man=d.cust?'1':'';$('drv').value=d.drv||'';$('place').value=d.place||'';$('det').value=d.det||'';
   $('stop').value=d.stop||'';$('fix').value=d.fix||'';$('tech').value=d.tech||'';
   DT.rep.set(d.rep);DT.mov.set(d.mov);DT.end.set(d.end);
 }
@@ -482,7 +720,7 @@ function renderList(){
   const q=$('q').value.trim().toLowerCase();
   let l=dbList().slice().sort((a,b)=>b.updatedAt-a.updatedAt);
   l=l.filter(r=>{const cl=closed(r.data);if(flt==='open'&&cl)return false;if(flt==='closed'&&!cl)return false;
-    return !q||[r.data.plate,r.data.drv,r.data.eng,r.data.place].join(' ').toLowerCase().includes(q)});
+    return !q||[r.data.plate,r.data.cust,r.data.drv,r.data.eng,r.data.place].join(' ').toLowerCase().includes(q)});
   $('list').innerHTML=l.length?l.map(r=>{const d=r.data,cl=closed(d);
     return `<div class="it ${cl?'ok':''}" data-id="${esc(r.id)}"><div class="bd" data-a="edit"><div class="pl">${esc(d.plate)}<span class="chip">${cl?'تم الانتهاء':'مفتوح'}</span></div>
     <div class="mt">${esc(fmtDT(d.rep))}${d.eng?' — '+esc(d.eng):''}${d.place?' — '+esc(d.place):''}</div></div>
@@ -499,9 +737,9 @@ $('list').addEventListener('click',async e=>{
 document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{flt=b.dataset.f;document.querySelectorAll('.flt button').forEach(x=>x.classList.toggle('on',x===b));renderList()});
 $('q').addEventListener('input',renderList);
 function show(v){
-  $('vNew').style.display=v==='new'?'':'none';$('vList').style.display=v==='list'?'':'none';$('bar').style.display=v==='new'?'':'none';
-  $('tabNew').classList.toggle('on',v==='new');$('tabList').classList.toggle('on',v==='list');
-  if(v==='list')renderList();
+  $('vNew').style.display=v==='new'?'':'none';$('vList').style.display=v==='list'?'':'none';$('vAdm').style.display=v==='adm'?'':'none';$('bar').style.display=v==='new'?'':'none';
+  $('tabNew').classList.toggle('on',v==='new');$('tabList').classList.toggle('on',v==='list');$('tabAdm').classList.toggle('on',v==='adm');
+  if(v==='list')renderList();if(v==='adm')admRender();
 }
 $('tabNew').onclick=()=>show('new');$('tabList').onclick=()=>show('list');
 $('f').addEventListener('submit',e=>e.preventDefault());
