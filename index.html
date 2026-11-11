@@ -114,6 +114,14 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 #sheet .sig>div{flex:1;border-top:1.5px solid #aab4c6;padding-top:8px;text-align:center;color:#5d6b82;font-size:14px}
 #sheet .ft{flex:none;margin-top:14px;border-top:1px solid #dfe5ef;padding:12px 35px 16px;display:flex;justify-content:space-between;font-size:13px;color:#5d6b82}
 
+
+/* ===== breakdown details field: locked PM list on top, free text below ===== */
+.dw{border:1px solid #cdd6e6;border-radius:8px;background:#fff;overflow:hidden}
+.dw:focus-within{outline:2px solid rgba(12,42,107,.25);border-color:var(--navy)}
+.dw textarea{border:0;border-radius:0;outline:0!important;display:block}
+#pmBox{display:none;background:#f4f6fb;border-bottom:1px dashed #cdd6e6;padding:6px 10px;font-size:14px;line-height:1.55;cursor:default;user-select:none;-webkit-user-select:none}
+#pmBox.on{display:block}
+#pmBox .pl{display:block}#pmBox .od{color:#a31d1d;font-weight:700}#pmBox .so{color:#8a6100;font-weight:700}#pmBox .nt{color:var(--mut);font-size:13px}
 /* ===== PM page (PDF only) ===== */
 #sheet .pmh{display:flex;gap:12px;flex:none}
 #sheet .pmh>div{flex:1;min-width:0;border:1px solid #dfe5ef;border-top:4px solid #0c2a6b;border-radius:12px;padding:7px 16px 9px;background:#f8f9fd}
@@ -132,6 +140,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 #sheet .pi{display:flex;align-items:center;gap:8px;border:1px solid #dfe5ef;border-radius:8px;padding:3px 8px;font-size:13px;line-height:1.35;background:#fff}
 #sheet .pi b{flex:1;min-width:0;font-weight:600}#sheet .pi em{font-style:normal;color:#5d6b82;font-size:12px;white-space:nowrap}
 #sheet .pi .bg{font-size:12px;padding:1px 9px}
+#sheet .box .pb{white-space:normal;line-height:1.55}#sheet .box .po{color:#a31d1d}#sheet .box .ps{color:#8a6100}#sheet .box .pd{margin-top:6px;padding-top:6px;border-top:1px dashed #cdd6e6;white-space:pre-wrap}
 #sheet .pmnote{border:1px solid #dfe5ef;border-radius:12px;padding:18px;text-align:center;font-size:16px;background:#f8f9fd;color:#142033}
 /* ===== date control, customer field, hidden admin tab ===== */
 .dtc{position:relative}
@@ -175,7 +184,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
  <div class="g3 b">
   <label class="f">مكان العطل<input id="place" type="text"></label>
   <div><span class="lbl">تاريخ ووقت الإبلاغ بالعطل <i class="rq">*</i></span><div id="dt_rep"></div></div>
-  <label class="f">تفاصيل العطل<textarea id="det"></textarea></label>
+  <label class="f">تفاصيل العطل<div class="dw"><div id="pmBox"></div><textarea id="det"></textarea></div></label>
  </div>
  <label class="f">هل العطل أدى إلى توقف السيارة نهائيًا على الطريق؟<select id="stop"><option value="">— اختر —</option><option>نعم</option><option>لا</option></select></label>
 </div>
@@ -305,6 +314,28 @@ function mkDT(key,id){
 }
 mkDT('rep','dt_rep');mkDT('mov','dt_mov');mkDT('end','dt_end');
 
+/* ---------- PM items (from the Maintenance Portal) shown inside the breakdown-details field ---------- */
+let PMLIST=[],pmFor='',pmTok=0,pmTimer=null;
+function pmRender(msg){
+  const b=$('pmBox');if(!b)return;
+  if(PMLIST.length){b.innerHTML=PMLIST.map(x=>`<span class="pl">• ${esc(x.t)} — <span class="${x.od?'od':'so'}">${x.od?'متأخر':'قريب الاستحقاق'}</span>${x.v&&x.v!=='—'?': '+esc(x.v):''}</span>`).join('');b.className='on'}
+  else if(msg){b.innerHTML=`<span class="nt">${esc(msg)}</span>`;b.className='on'}
+  else{b.innerHTML='';b.className=''}
+}
+function pmSetFor(plate,list){PMLIST=list||[];pmFor=plate;pmTok++;pmRender()}
+async function pmUpdate(){
+  const plate=$('plate').value.trim();
+  if(plate===pmFor)return;
+  const tok=++pmTok;pmFor=plate;
+  if(!plate||!PMC){PMLIST=[];pmRender();return}
+  pmRender('جارٍ جلب الصيانات الوقائية...');
+  let r=null;try{r=await pmLookup(plate)}catch(e){console.warn('pm',e)}
+  if(tok!==pmTok)return;
+  PMLIST=r?r.rows.map(x=>({t:x.ar||x.en,v:pmDelay(x.val),od:!!x.od})):[];
+  pmRender(r&&r.found&&!PMLIST.length?'✔ لا توجد صيانات وقائية متأخرة أو قريبة':'');
+}
+$('plate').addEventListener('input',()=>{clearTimeout(pmTimer);pmTimer=setTimeout(pmUpdate,500)});
+$('plate').addEventListener('blur',()=>{clearTimeout(pmTimer);pmUpdate()});
 let editing=null;
 function resolve(){
   const errs=[],res={},rr=DT.rep.raw(),rm=DT.mov.raw(),re=DT.end.raw();
@@ -317,7 +348,7 @@ function resolve(){
 }
 function read(){
   const eng=$('eng').value==='__other'?$('engOther').value.trim():$('eng').value;
-  return{eng,plate:$('plate').value.trim(),cust:$('cust').value.trim(),drv:$('drv').value.trim(),place:$('place').value.trim(),det:$('det').value.trim(),stop:$('stop').value,fix:$('fix').value.trim(),tech:$('tech').value.trim()};
+  return{eng,plate:$('plate').value.trim(),cust:$('cust').value.trim(),drv:$('drv').value.trim(),place:$('place').value.trim(),det:$('det').value.trim(),pm:PMLIST.map(x=>({t:x.t,v:x.v,od:x.od})),stop:$('stop').value,fix:$('fix').value.trim(),tech:$('tech').value.trim()};
 }
 function refresh(){
   const {res,errs,rm,re}=resolve();
@@ -350,7 +381,7 @@ function stLoad(){
   ST.recs=ST.recs||[];ST.dels=ST.dels||[];ST.last=ST.last||0;return ST;
 }
 const dbList=()=>stLoad().recs;
-function flat(d){return{plate:d.plate,customer:custOfRec(d),driver:d.drv,engineer:d.eng,workshop:wsOf(d),reportDate:fmtDT(d.rep),place:d.place,stop:d.stop,moveDate:fmtDT(d.mov),endDate:fmtDT(d.end),technicians:d.tech,status:closed(d)?'تم الانتهاء':'مفتوح',details:d.det,repair:d.fix}}
+function flat(d){return{plate:d.plate,customer:custOfRec(d),driver:d.drv,engineer:d.eng,workshop:wsOf(d),reportDate:fmtDT(d.rep),place:d.place,stop:d.stop,moveDate:fmtDT(d.mov),endDate:fmtDT(d.end),technicians:d.tech,status:closed(d)?'تم الانتهاء':'مفتوح',details:((d.pm||[]).map(x=>'• '+x.t+' — '+(x.od?'متأخر':'قريب الاستحقاق')+(x.v&&x.v!=='—'?': '+x.v:'')).concat(d.det?[d.det]:[])).join('\n'),repair:d.fix}}
 
 let syncing=false,lastOk=null,offline=false,localOnly=false,authed=false,fdb=null,fauth=null,unsub=null;
 const stamp=()=>{const n=new Date();lastOk=`${n.getHours()%12||12}:${p2(n.getMinutes())}:${p2(n.getSeconds())}`;setPill()};
@@ -607,19 +638,13 @@ function dur(a,b){
   if(D)p.push(D+' يوم');if(H)p.push(H+' ساعة');if(M)p.push(M+' دقيقة');
   return p.length?p.join(' و '):'0 دقيقة';
 }
-function pmSection(pm){
-  if(!pm)return'';
-  let body;
-  if(!pm.found&&!pm.rows.length)body=`<div class="pmnote">لم يتم العثور على هذه السيارة في بيانات بوابة الصيانة</div>`;
-  else if(!pm.rows.length)body=`<div class="pmnote" style="color:#18864b;font-weight:700">✔ لا توجد صيانات وقائية متأخرة أو قريبة الاستحقاق</div>`;
-  else{
-    const od=pm.rows.filter(x=>x.od).length,so=pm.rows.length-od,two=pm.rows.length>5;
-    body=`<div class="pmc"><span class="bg od">متأخرة: ${od}</span><span class="bg so">قريبة: ${so}</span></div>
-    <div class="pmg${two?' two':''}">${pm.rows.map(x=>`<div class="pi"><span class="bg ${x.od?'od':'so'}">${x.od?'متأخر':'قريب'}</span><b>${dash(x.ar||x.en)}</b><em>${esc(pmDelay(x.val))}</em></div>`).join('')}</div>`;
-  }
-  return `<div class="sec"><h2>الصيانات الوقائية المتأخرة والقريبة (بوابة الصيانة)</h2>${body}</div>`;
+function detHtml(d){
+  const pm=(d.pm||[]).map(x=>`<div class="pb">• ${esc(x.t)} — <b class="${x.od?'po':'ps'}">${x.od?'متأخر':'قريب الاستحقاق'}</b>${x.v&&x.v!=='—'?': '+esc(x.v):''}</div>`).join('');
+  const t=d.det&&String(d.det).trim();
+  if(!pm&&!t)return'—';
+  return pm+(t?`<div${pm?' class="pd"':''}>${esc(t)}</div>`:'');
 }
-function build(d,pm){
+function build(d){
   const cl=closed(d),n=new Date(),today=`${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()}`;
   const L=t=>`<td class="l">${t}</td>`,V=(v,c)=>`<td class="v"${c?` colspan="${c}"`:''}>${v}</td>`;
   const tm=o=>dash(o&&o.t?fmtT(o.t):''),dt=o=>dash(fmtD(o));
@@ -633,7 +658,7 @@ function build(d,pm){
       <tr>${L('المهندس المسئول')}${V(dash(d.eng))}${L('مكان العطل')}${V(dash(d.place))}</tr>
       <tr>${L('تاريخ الإبلاغ')}${V(dt(d.rep))}${L('وقت الإبلاغ')}${V(tm(d.rep))}</tr>
       ${(d.drv||d.stop)?`<tr>${L('اسم السائق')}${V(dash(d.drv))}${L('توقف السيارة نهائيًا')}${V(d.stop==='نعم'?'<b style="color:#d91e25">نعم</b>':dash(d.stop))}</tr>`:''}</table></div>
-    <div class="sec grow"><h2>تفاصيل العطل</h2><div class="box">${dash(d.det)}</div></div>
+    <div class="sec grow"><h2>تفاصيل العطل</h2><div class="box">${detHtml(d)}</div></div>
     <div class="sec"><h2>التحرك للعطل</h2><table>
       <tr>${L('تاريخ التحرك')}${V(dt(d.mov))}${L('وقت التحرك')}${V(tm(d.mov))}</tr>
       <tr>${L('الورشة المسئولة')}${V(dash(wsOf(d)),3)}</tr></table></div>
@@ -642,7 +667,6 @@ function build(d,pm){
       <tr>${L('الفني / الفنيون')}${V(dash(d.tech),3)}</tr></table></div>
     <div class="sec grow"><h2>تفاصيل الإصلاح</h2><div class="box">${dash(d.fix)}</div></div>
     <div class="sec"><h2>ملخص المدد</h2><div class="dur"><div><small>من الإبلاغ حتى التحرك</small><b>${dur(d.rep,d.mov)}</b></div><div><small>إجمالي مدة العطل (من الإبلاغ حتى الانتهاء)</small><b>${dur(d.rep,d.end)}</b></div></div></div>
-    ${pmSection(pm)}
     <div class="sig"><div>توقيع المهندس المسئول</div><div>اعتماد الإدارة</div></div>
   </div>
   <div class="ft"><span style="direction:ltr">Rady Trans — Technical Office</span><span>تم إنشاء التقرير بتاريخ ${today}</span></div>`;
@@ -711,27 +735,6 @@ async function pmLookup(plate){
     .sort((a,b)=>(b.od-a.od)||String(a.ar||a.en).localeCompare(String(b.ar||b.en),'ar'));
   return{found:hit.length>0,rows,asOf:c.maxImp};
 }
-function buildPm(d,pm,rows,pg,pgs){
-  const n=new Date(),today=`${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()}`;
-  const od=pm.rows.filter(x=>x.od).length,so=pm.rows.length-od;
-  const asOf=pm.asOf?new Date(pm.asOf):null,asOfTxt=asOf?`${asOf.getDate()}/${asOf.getMonth()+1}/${asOf.getFullYear()}`:'—';
-  let body;
-  if(!pm.found&&!pm.rows.length)body=`<div class="pmnote">لم يتم العثور على هذه السيارة في بيانات بوابة الصيانة</div>`;
-  else if(!pm.rows.length)body=`<div class="pmnote" style="color:#18864b;font-weight:700">✔ لا توجد صيانات وقائية متأخرة أو قريبة الاستحقاق لهذه السيارة</div>`;
-  else body=`<table class="pm"><colgroup><col style="width:7%"><col style="width:44%"><col style="width:22%"><col style="width:27%"></colgroup>
-    <tr><th>#</th><th>الصيانة</th><th>الحالة</th><th>المتأخر / المتبقي</th></tr>
-    ${rows.map(x=>`<tr><td>${x.i}</td><td class="t">${dash(x.ar||x.en)}${x.ar&&x.en&&x.en!==x.ar?`<small>${esc(x.en)}</small>`:''}</td><td><span class="bg ${x.od?'od':'so'}">${x.od?'متأخر':'قريب الاستحقاق'}</span></td><td>${esc(pmDelay(x.val))}</td></tr>`).join('')}</table>`;
-  return `
-  <div class="hd"><div class="lg"><img src="${LOGO}" alt=""></div>
-    <div class="tt"><h1>الصيانات الوقائية المتأخرة والقريبة</h1><div class="sub">Rady Trans for Heavy Transport &amp; Oil Services</div></div>
-    <div class="dt"><small>تاريخ التقرير</small><b>${today}</b></div></div>
-  <div class="bd">
-    <div class="pmh"><div class="r"><small>رقم السيارة</small><b>${dash(d.plate)}</b></div><div class="od"><small>متأخرة</small><b>${od}</b></div><div class="so"><small>قريبة الاستحقاق</small><b>${so}</b></div></div>
-    <div class="sec"><h2>الصيانات الوقائية${pgs>1?` (${pg}/${pgs})`:''}</h2>${body}</div>
-  </div>
-  <div style="flex:1"></div>
-  <div class="ft"><span style="direction:ltr">Rady Trans — Technical Office</span><span>مصدر البيانات: بوابة الصيانة — آخر تحديث للكشف ${asOfTxt}</span></div>`;
-}
 async function shot(html){
   const sh=$('sheet'),wrap=$('sheetWrap');sh.innerHTML=html;
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;
@@ -746,10 +749,9 @@ async function shot(html){
 }
 async function makePdf(r){
   await loadLibs();
-  let pm=null;try{pm=await pmLookup(r.plate)}catch(e){console.warn('pm',e)}
   const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
   const add=({cv,W,H})=>pdf.addImage(cv.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,Math.min(297,H/W*210),undefined,'FAST');
-  add(await shot(build(r,pm)));
+  add(await shot(build(r)));
   return pdf;
 }
 function download(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
@@ -806,14 +808,14 @@ $('save').onclick=async()=>{
 
 /* ---------- form state ---------- */
 function newForm(){
-  editing=null;$('f').reset();$('cust').dataset.man='';Object.values(DT).forEach(x=>{x.clear();x.mark(false)});
+  editing=null;pmSetFor('',[]);$('f').reset();$('cust').dataset.man='';Object.values(DT).forEach(x=>{x.clear();x.mark(false)});
   $('engOther').style.display='none';$('editBar').style.display='none';
   document.querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));refresh();
 }
 $('clr').onclick=()=>{if(confirm('مسح كل البيانات المكتوبة؟'))newForm()};
 $('cancelEdit').onclick=()=>{newForm()};
 function fillForm(d){
-  $('f').reset();
+  $('f').reset();pmSetFor((d.plate||'').trim(),d.pm||[]);
   if(ENGINEERS.includes(d.eng)||!d.eng){$('eng').value=d.eng||'';$('engOther').style.display='none'}
   else{$('eng').value='__other';$('engOther').style.display='';$('engOther').value=d.eng}
   $('plate').value=d.plate||'';$('cust').value=d.cust||'';$('cust').dataset.man=d.cust?'1':'';$('drv').value=d.drv||'';$('place').value=d.place||'';$('det').value=d.det||'';
