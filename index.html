@@ -113,6 +113,26 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 #sheet .sig{display:flex;gap:40px;margin-top:26px;flex:none}
 #sheet .sig>div{flex:1;border-top:1.5px solid #aab4c6;padding-top:8px;text-align:center;color:#5d6b82;font-size:14px}
 #sheet .ft{flex:none;margin-top:14px;border-top:1px solid #dfe5ef;padding:12px 35px 16px;display:flex;justify-content:space-between;font-size:13px;color:#5d6b82}
+
+/* ===== PM page (PDF only) ===== */
+#sheet .pmh{display:flex;gap:12px;flex:none}
+#sheet .pmh>div{flex:1;min-width:0;border:1px solid #dfe5ef;border-top:4px solid #0c2a6b;border-radius:12px;padding:7px 16px 9px;background:#f8f9fd}
+#sheet .pmh small{display:block;color:#5d6b82;font-size:13px;line-height:1.4}
+#sheet .pmh b{display:block;font-size:22px;color:#0c2a6b;line-height:1.35}
+#sheet .pmh .od{border-top-color:#d91e25}#sheet .pmh .od b{color:#d91e25}
+#sheet .pmh .so{border-top-color:#d99a00}#sheet .pmh .so b{color:#9a6b00}
+#sheet table.pm th{background:#0c2a6b;color:#fff;border:2px solid #0c2a6b;padding:6px 10px;font-size:14.5px;text-align:center}
+#sheet table.pm td{height:auto;padding:6px 10px;font-size:14.5px;text-align:center}
+#sheet table.pm td.t{text-align:right}
+#sheet table.pm td.t small{display:block;direction:ltr;text-align:left;color:#5d6b82;font-size:12px;line-height:1.3}
+#sheet .bg{display:inline-block;white-space:nowrap;padding:2px 12px;border-radius:999px;font-size:13.5px;font-weight:700}
+#sheet .bg.od{background:#fde7e7;color:#a31d1d}#sheet .bg.so{background:#fff2c9;color:#8a6100}
+#sheet .pmc{display:flex;gap:8px}
+#sheet .pmg{display:grid;grid-template-columns:1fr;gap:4px}#sheet .pmg.two{grid-template-columns:1fr 1fr}
+#sheet .pi{display:flex;align-items:center;gap:8px;border:1px solid #dfe5ef;border-radius:8px;padding:3px 8px;font-size:13px;line-height:1.35;background:#fff}
+#sheet .pi b{flex:1;min-width:0;font-weight:600}#sheet .pi em{font-style:normal;color:#5d6b82;font-size:12px;white-space:nowrap}
+#sheet .pi .bg{font-size:12px;padding:1px 9px}
+#sheet .pmnote{border:1px solid #dfe5ef;border-radius:12px;padding:18px;text-align:center;font-size:16px;background:#f8f9fd;color:#142033}
 /* ===== date control, customer field, hidden admin tab ===== */
 .dtc{position:relative}
 .dtc .dd{direction:ltr;text-align:center}
@@ -587,7 +607,19 @@ function dur(a,b){
   if(D)p.push(D+' يوم');if(H)p.push(H+' ساعة');if(M)p.push(M+' دقيقة');
   return p.length?p.join(' و '):'0 دقيقة';
 }
-function build(d){
+function pmSection(pm){
+  if(!pm)return'';
+  let body;
+  if(!pm.found&&!pm.rows.length)body=`<div class="pmnote">لم يتم العثور على هذه السيارة في بيانات بوابة الصيانة</div>`;
+  else if(!pm.rows.length)body=`<div class="pmnote" style="color:#18864b;font-weight:700">✔ لا توجد صيانات وقائية متأخرة أو قريبة الاستحقاق</div>`;
+  else{
+    const od=pm.rows.filter(x=>x.od).length,so=pm.rows.length-od,two=pm.rows.length>5;
+    body=`<div class="pmc"><span class="bg od">متأخرة: ${od}</span><span class="bg so">قريبة: ${so}</span></div>
+    <div class="pmg${two?' two':''}">${pm.rows.map(x=>`<div class="pi"><span class="bg ${x.od?'od':'so'}">${x.od?'متأخر':'قريب'}</span><b>${dash(x.ar||x.en)}</b><em>${esc(pmDelay(x.val))}</em></div>`).join('')}</div>`;
+  }
+  return `<div class="sec"><h2>الصيانات الوقائية المتأخرة والقريبة (بوابة الصيانة)</h2>${body}</div>`;
+}
+function build(d,pm){
   const cl=closed(d),n=new Date(),today=`${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()}`;
   const L=t=>`<td class="l">${t}</td>`,V=(v,c)=>`<td class="v"${c?` colspan="${c}"`:''}>${v}</td>`;
   const tm=o=>dash(o&&o.t?fmtT(o.t):''),dt=o=>dash(fmtD(o));
@@ -610,6 +642,7 @@ function build(d){
       <tr>${L('الفني / الفنيون')}${V(dash(d.tech),3)}</tr></table></div>
     <div class="sec grow"><h2>تفاصيل الإصلاح</h2><div class="box">${dash(d.fix)}</div></div>
     <div class="sec"><h2>ملخص المدد</h2><div class="dur"><div><small>من الإبلاغ حتى التحرك</small><b>${dur(d.rep,d.mov)}</b></div><div><small>إجمالي مدة العطل (من الإبلاغ حتى الانتهاء)</small><b>${dur(d.rep,d.end)}</b></div></div></div>
+    ${pmSection(pm)}
     <div class="sig"><div>توقيع المهندس المسئول</div><div>اعتماد الإدارة</div></div>
   </div>
   <div class="ft"><span style="direction:ltr">Rady Trans — Technical Office</span><span>تم إنشاء التقرير بتاريخ ${today}</span></div>`;
@@ -623,9 +656,84 @@ function loadLibs(){
   return libsP;
 }
 window.addEventListener('load',()=>setTimeout(()=>loadLibs().catch(()=>{}),800));
-async function makePdf(r){
-  await loadLibs();
-  const sh=$('sheet'),wrap=$('sheetWrap');sh.innerHTML=build(r);
+/* ---------- link to the Maintenance Portal (read-only; its data appears ONLY in the PDF) ---------- */
+const PMC=CFG.pmPortal||null,PMKEY='rt_pm_cache_v1';
+let pmMem=null;
+const pmClean=v=>String(v==null?'':v).replace(/\s+/g,' ').trim();
+function pmNorm(v){return pmClean(v).toUpperCase().replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))).replace(/[۰-۹]/g,d=>String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))).replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[\s\-_/\\.,:;|]+/g,'')}
+function pmLoad(){if(pmMem)return pmMem;try{pmMem=JSON.parse(localStorage.getItem(PMKEY)||'null')}catch(e){}return pmMem}
+function pmSave(c){pmMem=c;try{localStorage.setItem(PMKEY,JSON.stringify(c))}catch(e){}}
+const pmTask=x=>pmClean(x.taskEn||x.taskAr).toLowerCase();
+async function pmFetch(){
+  const c=pmLoad(),now=Date.now();
+  if(c&&now-c.ts<10*60*1000)return c;                       /* fresh enough: no Firestore reads at all */
+  const app=firebase.apps.find(a=>a.name==='pm')||firebase.initializeApp(PMC.firebase,'pm');
+  const col=app.firestore().collection(PMC.collection);
+  const full=!c||now-c.full>24*3600*1000;                   /* full reload once a day (catches deleted reports) */
+  const nc=full?{recs:{},veh:{},clos:{},maxImp:0,full:now,ts:now}:{recs:{...c.recs},veh:{...c.veh},clos:{},maxImp:c.maxImp,full:c.full,ts:now};
+  const jobs=[(full?col:col.where('importedAt','>',c.maxImp)).get()];
+  if(!full)jobs.push(col.where('kind','==','closure').get());   /* closures are tiny: always re-read */
+  const snaps=await Promise.all(jobs);
+  snaps.forEach(sn=>sn.forEach(doc=>{
+    const d=doc.data();
+    if(d.kind==='closure'&&d.key){nc.clos[d.key]=Number(d.closedAt)||0;return}
+    if(d.kind==='fleetconfig'||d.kind==='pmcconfig'||!d.plate)return;
+    const imp=Number(d.importedAt)||0;if(imp>nc.maxImp)nc.maxImp=imp;
+    if(d.kind==='vehicle'){nc.veh[pmNorm(d.plate)]=d.plate;return}
+    if(!d.status)return;
+    const pn=pmNorm(d.plate),ar=pmClean(d.taskAr).toLowerCase();
+    const rk=[pn,pmTask(d),ar,pmClean(d.status).toLowerCase()].join('||'),old=nc.recs[rk];
+    if(!old||imp>=old[5])nc.recs[rk]=[d.plate,d.taskEn||'',d.taskAr||'',d.value==null?'':String(d.value),d.status,imp,[pn,pmTask(d),ar].join('||')];
+  }));
+  pmSave(nc);return nc;
+}
+function pmDelay(v){
+  let s=pmClean(v);if(!s)return'—';
+  return s.replace(/\bkilometers?\b/gi,'كم').replace(/\bkm?s?\b/gi,'كم').replace(/\bmonths?\s+and\s+/gi,'شهر و ').replace(/\bdays?\s+and\s+/gi,'يوم و ')
+    .replace(/\bmonths?\b/gi,'شهر').replace(/\bdays?\b/gi,'يوم').replace(/\bhours?\b/gi,'ساعة').replace(/\bweeks?\b/gi,'أسبوع')
+    .replace(/\bsoon\b/gi,'قريب الاستحقاق').replace(/\boverdue\b/gi,'متأخر').replace(/شهور/g,'شهر').replace(/أيام|ايام/g,'يوم');
+}
+/* returns null when the portal data cannot be reached (then the PDF simply has no PM page) */
+async function pmLookup(plate){
+  if(!PMC||!window.firebase||!plateKey(plate).digits&&!plateKey(plate).letters)return null;
+  let c;
+  try{c=await Promise.race([pmFetch(),new Promise((_,no)=>setTimeout(()=>no(new Error('timeout')),12000))])}
+  catch(e){console.warn('pm portal',e);c=pmLoad()}
+  if(!c)return null;
+  const k=plateKey(plate),all=new Map();
+  Object.values(c.recs).forEach(e=>all.set(pmNorm(e[0]),e[0]));
+  Object.entries(c.veh).forEach(([n,p])=>all.set(n,p));
+  let hit=[...all].filter(([n,p])=>{const q=plateKey(p);return q.digits===k.digits&&q.letters===k.letters});
+  if(!hit.length&&k.digits&&!k.letters){const h=[...all].filter(([n,p])=>plateKey(p).digits===k.digits);if(h.length===1)hit=h}
+  const names=new Set(hit.map(h=>h[0]));
+  const rows=Object.values(c.recs).filter(e=>names.has(pmNorm(e[0]))&&!(c.clos[e[6]]>e[5]))
+    .map(e=>({en:e[1],ar:e[2],val:e[3],od:/overdue/i.test(e[4])}))
+    .sort((a,b)=>(b.od-a.od)||String(a.ar||a.en).localeCompare(String(b.ar||b.en),'ar'));
+  return{found:hit.length>0,rows,asOf:c.maxImp};
+}
+function buildPm(d,pm,rows,pg,pgs){
+  const n=new Date(),today=`${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()}`;
+  const od=pm.rows.filter(x=>x.od).length,so=pm.rows.length-od;
+  const asOf=pm.asOf?new Date(pm.asOf):null,asOfTxt=asOf?`${asOf.getDate()}/${asOf.getMonth()+1}/${asOf.getFullYear()}`:'—';
+  let body;
+  if(!pm.found&&!pm.rows.length)body=`<div class="pmnote">لم يتم العثور على هذه السيارة في بيانات بوابة الصيانة</div>`;
+  else if(!pm.rows.length)body=`<div class="pmnote" style="color:#18864b;font-weight:700">✔ لا توجد صيانات وقائية متأخرة أو قريبة الاستحقاق لهذه السيارة</div>`;
+  else body=`<table class="pm"><colgroup><col style="width:7%"><col style="width:44%"><col style="width:22%"><col style="width:27%"></colgroup>
+    <tr><th>#</th><th>الصيانة</th><th>الحالة</th><th>المتأخر / المتبقي</th></tr>
+    ${rows.map(x=>`<tr><td>${x.i}</td><td class="t">${dash(x.ar||x.en)}${x.ar&&x.en&&x.en!==x.ar?`<small>${esc(x.en)}</small>`:''}</td><td><span class="bg ${x.od?'od':'so'}">${x.od?'متأخر':'قريب الاستحقاق'}</span></td><td>${esc(pmDelay(x.val))}</td></tr>`).join('')}</table>`;
+  return `
+  <div class="hd"><div class="lg"><img src="${LOGO}" alt=""></div>
+    <div class="tt"><h1>الصيانات الوقائية المتأخرة والقريبة</h1><div class="sub">Rady Trans for Heavy Transport &amp; Oil Services</div></div>
+    <div class="dt"><small>تاريخ التقرير</small><b>${today}</b></div></div>
+  <div class="bd">
+    <div class="pmh"><div class="r"><small>رقم السيارة</small><b>${dash(d.plate)}</b></div><div class="od"><small>متأخرة</small><b>${od}</b></div><div class="so"><small>قريبة الاستحقاق</small><b>${so}</b></div></div>
+    <div class="sec"><h2>الصيانات الوقائية${pgs>1?` (${pg}/${pgs})`:''}</h2>${body}</div>
+  </div>
+  <div style="flex:1"></div>
+  <div class="ft"><span style="direction:ltr">Rady Trans — Technical Office</span><span>مصدر البيانات: بوابة الصيانة — آخر تحديث للكشف ${asOfTxt}</span></div>`;
+}
+async function shot(html){
+  const sh=$('sheet'),wrap=$('sheetWrap');sh.innerHTML=html;
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;
   const RATIO=297/210;let W=794;
   const setW=w=>{wrap.style.width=w+'px';sh.style.width=w+'px';sh.style.minHeight=Math.round(w*RATIO)+'px'};
@@ -633,9 +741,15 @@ async function makePdf(r){
   for(let i=0;i<30&&sh.offsetHeight>W*RATIO+1;i++){W=Math.ceil(W*1.05);setW(W)}   /* long text: shrink the whole page so it stays on ONE page */
   const H=sh.offsetHeight,S=Math.min(2,3000/W);
   const cv=await html2canvas(sh,{scale:S,backgroundColor:'#ffffff',useCORS:true,windowWidth:W,scrollX:0,scrollY:0});
-  const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
-  pdf.addImage(cv.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,Math.min(297,H/W*210),undefined,'FAST');
   sh.innerHTML='';setW(794);
+  return{cv,W,H};
+}
+async function makePdf(r){
+  await loadLibs();
+  let pm=null;try{pm=await pmLookup(r.plate)}catch(e){console.warn('pm',e)}
+  const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
+  const add=({cv,W,H})=>pdf.addImage(cv.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,Math.min(297,H/W*210),undefined,'FAST');
+  add(await shot(build(r,pm)));
   return pdf;
 }
 function download(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
