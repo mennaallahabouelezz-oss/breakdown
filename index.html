@@ -31,8 +31,8 @@ main{max-width:1100px;margin:0 auto;padding:8px 10px 90px}
 .card h2{font-size:15px;margin:0 0 8px;color:var(--navy);border-right:4px solid var(--red);padding-right:8px;line-height:1.3}
 .g3,.g2{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:8px;align-items:start}
 @media(min-width:640px){.g2{grid-template-columns:1fr 1fr}.g3.a{grid-template-columns:1fr 1fr 1fr}}
-@media(min-width:900px){.g3.b{grid-template-columns:1fr 1.5fr 1.2fr}}
-@media(min-width:640px) and (max-width:899px){.g3.b{grid-template-columns:1fr 1fr}.g3.b>:nth-child(3){grid-column:1/-1}}
+@media(min-width:900px){.g3.b{grid-template-columns:1fr 1.5fr}}
+@media(min-width:640px) and (max-width:899px){.g3.b{grid-template-columns:1fr 1fr}}
 label.f{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--mut);font-weight:600}
 i.rq{color:var(--red);font-style:normal}
 input,select,textarea{font:inherit;font-size:15px;border:1px solid #cdd6e6;border-radius:8px;padding:6px 9px;background:#fff;color:var(--ink);width:100%;min-height:38px}
@@ -119,6 +119,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 .dw{border:1px solid #cdd6e6;border-radius:8px;background:#fff;overflow:hidden}
 .dw:focus-within{outline:2px solid rgba(12,42,107,.25);border-color:var(--navy)}
 .dw textarea{border:0;border-radius:0;outline:0!important;display:block}
+.detrow{margin-bottom:8px}
+#det{min-height:170px;height:170px}
 #pmBox{display:none;background:#f4f6fb;border-bottom:1px dashed #cdd6e6;padding:6px 10px;font-size:14px;line-height:1.55;cursor:default;user-select:none;-webkit-user-select:none}
 #pmBox.on{display:block}
 #pmBox .pl{display:block}#pmBox .od{color:#a31d1d;font-weight:700}#pmBox .so{color:#8a6100;font-weight:700}#pmBox .nt{color:var(--mut);font-size:13px}
@@ -184,8 +186,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
  <div class="g3 b">
   <label class="f">مكان العطل<input id="place" type="text"></label>
   <div><span class="lbl">تاريخ ووقت الإبلاغ بالعطل <i class="rq">*</i></span><div id="dt_rep"></div></div>
-  <label class="f">تفاصيل العطل<div class="dw"><div id="pmBox"></div><textarea id="det"></textarea></div></label>
  </div>
+ <label class="f detrow">تفاصيل العطل<div class="dw"><div id="pmBox"></div><textarea id="det"></textarea></div></label>
  <label class="f">هل العطل أدى إلى توقف السيارة نهائيًا على الطريق؟<select id="stop"><option value="">— اختر —</option><option>نعم</option><option>لا</option></select></label>
 </div>
 
