@@ -120,7 +120,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 .dw:focus-within{outline:2px solid rgba(12,42,107,.25);border-color:var(--navy)}
 .dw textarea{border:0;border-radius:0;outline:0!important;display:block}
 .detrow{margin-bottom:8px}
-#det{min-height:170px;height:170px}
+#det{min-height:150px;height:150px}
 #pmBox{display:none;background:#f4f6fb;border-bottom:1px dashed #cdd6e6;padding:6px 10px;font-size:14px;line-height:1.55;cursor:default;user-select:none;-webkit-user-select:none}
 #pmBox.on{display:block}
 #pmBox .pl{display:block}#pmBox .od{color:#a31d1d;font-weight:700}#pmBox .so{color:#8a6100;font-weight:700}#pmBox .nt{color:var(--mut);font-size:13px}
@@ -162,6 +162,40 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
 .abar .pri{background:var(--red);border-color:var(--red);color:#fff}
 .abar button:disabled{opacity:.6}
 .mut{color:var(--mut);font-size:13px;margin:0 0 8px}
+/* ===== customer cell aligned with the rest of its row ===== */
+.g3.a.c4 label.f{white-space:nowrap}
+/* ===== breakdown type row (between the PM list and the free text) ===== */
+.typrow{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#fafbfe;border-bottom:1px dashed #cdd6e6}
+.typrow label{font-size:13px;color:var(--mut);font-weight:700;white-space:nowrap}
+.typrow select{flex:1;min-width:0}
+.pl bdi{unicode-bidi:isolate}
+input::placeholder{font-weight:400}
+/* ===== analog clock picker (PC + phone) ===== */
+.dtc .tt{cursor:pointer;text-align:center;caret-color:transparent;background:#fff}
+#clk{position:fixed;inset:0;background:rgba(7,27,74,.55);display:none;align-items:center;justify-content:center;z-index:70;padding:12px}
+#clk .cb{background:#fff;border-radius:16px;width:min(320px,100%);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+#clk .ch{background:var(--navy);color:#fff;padding:14px 12px;display:flex;align-items:center;justify-content:center;gap:14px;direction:ltr}
+#clk .hm{display:flex;align-items:center;font-size:50px;font-weight:700;line-height:1}
+#clk .hm button{font:inherit;color:#fff;background:rgba(255,255,255,.12);border:0;border-radius:10px;padding:4px 10px;cursor:pointer;opacity:.65;min-width:74px}
+#clk .hm button.on{opacity:1;background:rgba(255,255,255,.3)}
+#clk .hm i{font-style:normal;padding:0 3px}
+#clk .ap{display:flex;flex-direction:column;gap:5px}
+#clk .ap button{font:inherit;font-weight:700;font-size:15px;color:#fff;background:rgba(255,255,255,.12);border:0;border-radius:8px;padding:6px 12px;cursor:pointer;opacity:.65}
+#clk .ap button.on{opacity:1;background:var(--red)}
+#clk .dial{position:relative;width:256px;height:256px;margin:18px auto 6px;border-radius:50%;background:var(--soft);touch-action:none;direction:ltr;user-select:none;-webkit-user-select:none;cursor:pointer}
+#clk .dial .n{position:absolute;width:36px;height:36px;margin:-18px 0 0 -18px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:600;font-size:16px;pointer-events:none;z-index:2;color:var(--ink)}
+#clk .dial .n.s{color:#fff}
+#clk .dial .hand{position:absolute;left:127px;width:2px;background:var(--navy);transform-origin:50% 100%;pointer-events:none;z-index:1}
+#clk .dial .knob{position:absolute;width:38px;height:38px;border-radius:50%;background:var(--navy);margin:-19px 0 0 -19px;pointer-events:none;z-index:1}
+#clk .dial .dot{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--navy);z-index:1;pointer-events:none}
+#clk .kb{display:none;direction:ltr;align-items:center;justify-content:center;gap:8px;padding:30px 12px 24px}
+#clk .kb input{width:92px;text-align:center;font-size:34px;font-weight:700;min-height:64px}
+#clk .kb b{font-size:34px}
+#clk.kbm .dial{display:none}#clk.kbm .kb{display:flex}
+#clk .cf{display:flex;gap:6px;padding:6px 12px 12px;align-items:center}
+#clk .cf button{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--soft);color:var(--navy);border-radius:10px;padding:8px 14px;min-height:42px;cursor:pointer}
+#clk .cf .ok{background:var(--red);border-color:var(--red);color:#fff;margin-inline-start:auto}
+#clk .cf .kbt{padding:8px 10px}
 </style>
 </head>
 <body>
@@ -180,14 +214,14 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
  <div class="g3 a c4">
   <div><label class="f">مهندس الاستقبال المسئول<select id="eng"></select></label><input id="engOther" type="text" placeholder="اكتب اسم المهندس" style="display:none;margin-top:6px"></div>
   <label class="f"><span>رقم السيارة <i class="rq">*</i></span><input id="plate" type="text" autocapitalize="characters"></label>
-  <div><label class="f">العميل <small style="font-weight:400">(يُملأ تلقائيًا من كشف السيارات)</small><input id="cust" type="text"></label><div class="cust-hint" id="custHint"></div></div>
   <label class="f">اسم السائق<input id="drv" type="text"></label>
+  <div><label class="f">العميل<input id="cust" type="text" placeholder="يُملأ تلقائيًا من كشف السيارات"></label><div class="cust-hint" id="custHint"></div></div>
  </div>
  <div class="g3 b">
   <label class="f">مكان العطل<input id="place" type="text"></label>
   <div><span class="lbl">تاريخ ووقت الإبلاغ بالعطل <i class="rq">*</i></span><div id="dt_rep"></div></div>
  </div>
- <label class="f detrow">تفاصيل العطل<div class="dw"><div id="pmBox"></div><textarea id="det"></textarea></div></label>
+ <div class="f detrow"><span class="lbl">تفاصيل العطل</span><div class="dw"><div id="pmBox"></div><div class="typrow"><label for="typ">نوع العطل</label><select id="typ"><option value="">— اختر —</option><option>ميكانيكا</option><option>كهرباء</option><option>حدادة</option><option>كاوتش</option></select></div><textarea id="det" aria-label="تفاصيل العطل" placeholder="اكتب تفاصيل العطل..."></textarea></div></div>
  <label class="f">هل العطل أدى إلى توقف السيارة نهائيًا على الطريق؟<select id="stop"><option value="">— اختر —</option><option>نعم</option><option>لا</option></select></label>
 </div>
 
@@ -240,6 +274,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(12,42,107,.25);bo
  <input id="admPw" type="password" autocomplete="off" placeholder="كلمة المرور">
  <button type="button" class="go" id="admGo">دخول</button><button type="button" id="admCancel">إلغاء</button></div></div>
 
+<div id="clk"><div class="cb">
+ <div class="ch"><div class="hm"><button type="button" id="clkH">7</button><i>:</i><button type="button" id="clkM">28</button></div><div class="ap"><button type="button" id="clkAM">ص</button><button type="button" id="clkPM">م</button></div></div>
+ <div class="dial" id="clkDial"></div>
+ <div class="kb"><input id="kbH" type="text" inputmode="numeric" maxlength="2" aria-label="الساعة"><b>:</b><input id="kbM" type="text" inputmode="numeric" maxlength="2" aria-label="الدقائق"></div>
+ <div class="cf"><button type="button" class="ok" id="clkOk">تعيين</button><button type="button" id="clkCancel">إلغاء</button><button type="button" id="clkClear">محو</button><button type="button" class="kbt" id="clkKb" title="كتابة الوقت بالكيبورد">⌨</button></div>
+</div></div>
+
 <div id="sheetWrap"><div id="sheet"></div></div>
 
 <script src="config.js"></script>
@@ -291,21 +332,91 @@ function parseDMY(str){   /* 5/9 · 5/9/26 · 05-09-2026 · 5 9 · 0509 · 05092
   if(y<2000||y>2100||m<1||m>12||d<1||d>new Date(y,m,0).getDate())return{bad:1};
   return{d,m,y};
 }
+
+/* ---------- analog clock picker (same look on PC and phone) ---------- */
+let CLK=null;
+function openClock(cur,cb){
+  const box=$('clk'),dial=$('clkDial');
+  if(!CLK){
+    CLK={H:12,M:0,PM:false,mode:'h',cb:null,kb:false};
+    let html='<div class="knob" id="clkKnob"></div><div class="hand" id="clkHand"></div><div class="dot"></div>';
+    for(let i=0;i<12;i++){const a=i*30*Math.PI/180;html+=`<div class="n" data-i="${i}" style="left:${128+100*Math.sin(a)}px;top:${128-100*Math.cos(a)}px"></div>`}
+    dial.innerHTML=html;
+    const paint=()=>{
+      const h=CLK.mode==='h';
+      $('clkH').textContent=CLK.H;$('clkM').textContent=p2(CLK.M);
+      $('clkH').classList.toggle('on',h);$('clkM').classList.toggle('on',!h);
+      $('clkAM').classList.toggle('on',!CLK.PM);$('clkPM').classList.toggle('on',CLK.PM);
+      const ang=h?(CLK.H%12)*30:CLK.M*6,r=ang*Math.PI/180;
+      const sel=h?CLK.H%12:(CLK.M%5===0?CLK.M/5:-1);
+      dial.querySelectorAll('.n').forEach(n=>{const i=+n.dataset.i;n.textContent=h?(i===0?12:i):p2(i*5);n.classList.toggle('s',i===sel)});
+      const kn=$('clkKnob'),hd=$('clkHand');
+      kn.style.left=(128+100*Math.sin(r))+'px';kn.style.top=(128-100*Math.cos(r))+'px';
+      hd.style.height='100px';hd.style.top='28px';hd.style.transform=`rotate(${ang}deg)`;
+      kn.style.width=kn.style.height=(sel<0?'12px':'38px');kn.style.margin=sel<0?'-6px 0 0 -6px':'-19px 0 0 -19px';
+    };
+    CLK.paint=paint;
+    const fromEvent=e=>{
+      const rc=dial.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2);
+      const ang=(Math.atan2(dx,-dy)*180/Math.PI+360)%360;
+      if(CLK.mode==='h'){CLK.H=Math.round(ang/30)%12||12}else{CLK.M=Math.round(ang/6)%60}
+      paint();
+    };
+    let down=false;
+    dial.addEventListener('pointerdown',e=>{down=true;try{dial.setPointerCapture(e.pointerId)}catch(x){}fromEvent(e);e.preventDefault()});
+    dial.addEventListener('pointermove',e=>{if(down)fromEvent(e)});
+    const up=()=>{if(!down)return;down=false;if(CLK.mode==='h'){CLK.mode='m';paint()}};
+    dial.addEventListener('pointerup',up);dial.addEventListener('pointercancel',()=>{down=false});
+    $('clkH').onclick=()=>{CLK.mode='h';paint()};$('clkM').onclick=()=>{CLK.mode='m';paint()};
+    $('clkAM').onclick=()=>{CLK.PM=false;paint()};$('clkPM').onclick=()=>{CLK.PM=true;paint()};
+    const close=()=>{box.style.display='none';box.classList.remove('kbm');CLK.kb=false};
+    CLK.close=close;
+    const commit=()=>{
+      if(CLK.kb){   /* typed time: accepts 12h or 24h */
+        let h=parseInt(latinDigits($('kbH').value),10),m=parseInt(latinDigits($('kbM').value)||'0',10);
+        if(isNaN(h)||h<0||h>23||isNaN(m)||m<0||m>59){toast('اكتب وقتًا صحيحًا (الساعة 1–12 والدقائق 0–59)','err');return}
+        if(h>12){CLK.PM=true;h-=12}else if(h===0){CLK.PM=false;h=12}
+        CLK.H=h;CLK.M=m;
+      }
+      const h24=(CLK.H%12)+(CLK.PM?12:0);
+      const f=CLK.cb;close();if(f)f(`${p2(h24)}:${p2(CLK.M)}`);
+    };
+    $('clkOk').onclick=commit;
+    $('clkCancel').onclick=close;
+    $('clkClear').onclick=()=>{const f=CLK.cb;close();if(f)f('')};
+    $('clkKb').onclick=()=>{
+      CLK.kb=!CLK.kb;box.classList.toggle('kbm',CLK.kb);
+      if(CLK.kb){$('kbH').value=CLK.H;$('kbM').value=p2(CLK.M);setTimeout(()=>{$('kbH').focus();$('kbH').select()},30)}
+    };
+    box.addEventListener('mousedown',e=>{if(e.target===box)close()});
+    box.addEventListener('keydown',e=>{if(e.key==='Escape')close();else if(e.key==='Enter'){e.preventDefault();commit()}});
+  }
+  const n=new Date();
+  let h24=n.getHours(),mi=n.getMinutes();
+  if(cur&&/^\d{1,2}:\d{1,2}$/.test(cur)){const q=cur.split(':').map(Number);h24=q[0];mi=q[1]}
+  CLK.PM=h24>=12;CLK.H=h24%12||12;CLK.M=mi;CLK.mode='h';CLK.cb=cb;CLK.kb=false;
+  box.classList.remove('kbm');box.style.display='flex';CLK.paint();
+}
 const DT={};
 function mkDT(key,id){
   const box=$(id);
-  box.innerHTML='<div class="dtc"><input type="text" class="dd" inputmode="decimal" autocomplete="off" placeholder="5/9/2026" aria-label="التاريخ (يوم/شهر/سنة)"><button type="button" class="cal" title="اختيار من التقويم">📅</button><button type="button" class="td">اليوم</button><input type="time" class="tt" aria-label="الوقت"><button type="button" class="now">الآن</button><input type="date" class="nat" tabindex="-1" aria-hidden="true"></div><div class="hint"></div>';
+  box.innerHTML='<div class="dtc"><input type="text" class="dd" inputmode="decimal" autocomplete="off" placeholder="5/9/2026" aria-label="التاريخ (يوم/شهر/سنة)"><button type="button" class="cal" title="اختيار من التقويم">📅</button><button type="button" class="td">اليوم</button><input type="text" class="tt" readonly inputmode="none" autocomplete="off" placeholder="🕒 الوقت" aria-label="الوقت (اضغط لفتح الساعة)"><button type="button" class="now">الآن</button><input type="date" class="nat" tabindex="-1" aria-hidden="true"></div><div class="hint"></div>';
   const dd=box.querySelector('.dd'),tt=box.querySelector('.tt'),nat=box.querySelector('.nat'),hint=box.querySelector('.hint');
+  const getT=()=>tt.dataset.v||'';
+  const setT=v=>{tt.dataset.v=v||'';if(v){const [h,mi]=v.split(':').map(Number);tt.value=fmtT({h,mi})}else tt.value=''};
+  const openC=()=>openClock(getT(),v=>{setT(v);tt.classList.remove('bad');refresh()});
+  tt.addEventListener('click',openC);
+  tt.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openC()}});
   const put=(d,m,y)=>{dd.value=`${d}/${m}/${y}`;dd.classList.remove('bad')};
   box.querySelector('.td').onclick=()=>{const n=new Date();put(n.getDate(),n.getMonth()+1,n.getFullYear());refresh()};
-  box.querySelector('.now').onclick=()=>{const n=new Date();tt.value=`${p2(n.getHours())}:${p2(n.getMinutes())}`;tt.classList.remove('bad');refresh()};
+  box.querySelector('.now').onclick=()=>{const n=new Date();setT(`${p2(n.getHours())}:${p2(n.getMinutes())}`);tt.classList.remove('bad');refresh()};
   box.querySelector('.cal').onclick=()=>{try{nat.showPicker()}catch(e){try{nat.focus();nat.click()}catch(x){}}};
   nat.onchange=()=>{if(nat.value){const [y,m,d]=nat.value.split('-').map(Number);put(d,m,y);refresh()}};
   dd.addEventListener('blur',()=>{const q=parseDMY(dd.value);if(q&&!q.bad){put(q.d,q.m,q.y);refresh()}});
-  function set(o){if(!o){dd.value=tt.value='';return}dd.value=`${o.d}/${o.m}/${o.y}`;tt.value=o.t?`${p2(o.t.h)}:${p2(o.t.mi)}`:''}
-  function clear(){dd.value=tt.value='';hint.textContent='';hint.className='hint'}
+  function set(o){if(!o){dd.value='';setT('');return}dd.value=`${o.d}/${o.m}/${o.y}`;setT(o.t?`${p2(o.t.h)}:${p2(o.t.mi)}`:'')}
+  function clear(){dd.value='';setT('');hint.textContent='';hint.className='hint'}
   function raw(){
-    const dv=dd.value.trim(),tv=tt.value;
+    const dv=dd.value.trim(),tv=getT();
     if(!dv&&!tv)return{empty:true};
     if(!dv)return{bad:'اكتب التاريخ (مثال 5/9/2026) أو اضغط «اليوم»'};
     const q=parseDMY(dv);if(!q||q.bad)return{bad:'تاريخ غير صحيح — اكتبه هكذا: يوم/شهر/سنة (مثال 5/9/2026)'};
@@ -320,7 +431,7 @@ mkDT('rep','dt_rep');mkDT('mov','dt_mov');mkDT('end','dt_end');
 let PMLIST=[],pmFor='',pmTok=0,pmTimer=null;
 function pmRender(msg){
   const b=$('pmBox');if(!b)return;
-  if(PMLIST.length){b.innerHTML=PMLIST.map(x=>`<span class="pl">• ${esc(x.t)} — <span class="${x.od?'od':'so'}">${x.od?'متأخر':'قريب الاستحقاق'}</span>${x.v&&x.v!=='—'?': '+esc(x.v):''}</span>`).join('');b.className='on'}
+  if(PMLIST.length){b.innerHTML=PMLIST.map(x=>`<span class="pl" dir="rtl">• <bdi>${esc(x.t)}</bdi> — <span class="${x.od?'od':'so'}">${x.od?'متأخر':'قريب الاستحقاق'}</span>${x.v&&x.v!=='—'?': '+esc(pmDelay(x.v)):''}</span>`).join('');b.className='on'}
   else if(msg){b.innerHTML=`<span class="nt">${esc(msg)}</span>`;b.className='on'}
   else{b.innerHTML='';b.className=''}
 }
@@ -350,7 +461,7 @@ function resolve(){
 }
 function read(){
   const eng=$('eng').value==='__other'?$('engOther').value.trim():$('eng').value;
-  return{eng,plate:$('plate').value.trim(),cust:$('cust').value.trim(),drv:$('drv').value.trim(),place:$('place').value.trim(),det:$('det').value.trim(),pm:PMLIST.map(x=>({t:x.t,v:x.v,od:x.od})),stop:$('stop').value,fix:$('fix').value.trim(),tech:$('tech').value.trim()};
+  return{eng,plate:$('plate').value.trim(),cust:$('cust').value.trim(),drv:$('drv').value.trim(),place:$('place').value.trim(),typ:$('typ').value,det:$('det').value.trim(),pm:PMLIST.map(x=>({t:x.t,v:x.v,od:x.od})),stop:$('stop').value,fix:$('fix').value.trim(),tech:$('tech').value.trim()};
 }
 function refresh(){
   const {res,errs,rm,re}=resolve();
@@ -383,7 +494,7 @@ function stLoad(){
   ST.recs=ST.recs||[];ST.dels=ST.dels||[];ST.last=ST.last||0;return ST;
 }
 const dbList=()=>stLoad().recs;
-function flat(d){return{plate:d.plate,customer:custOfRec(d),driver:d.drv,engineer:d.eng,workshop:wsOf(d),reportDate:fmtDT(d.rep),place:d.place,stop:d.stop,moveDate:fmtDT(d.mov),endDate:fmtDT(d.end),technicians:d.tech,status:closed(d)?'تم الانتهاء':'مفتوح',details:((d.pm||[]).map(x=>'• '+x.t+' — '+(x.od?'متأخر':'قريب الاستحقاق')+(x.v&&x.v!=='—'?': '+x.v:'')).concat(d.det?[d.det]:[])).join('\n'),repair:d.fix}}
+function flat(d){return{plate:d.plate,customer:custOfRec(d),driver:d.drv,engineer:d.eng,workshop:wsOf(d),reportDate:fmtDT(d.rep),place:d.place,stop:d.stop,moveDate:fmtDT(d.mov),endDate:fmtDT(d.end),technicians:d.tech,status:closed(d)?'تم الانتهاء':'مفتوح',type:d.typ||'',details:((d.pm||[]).map(x=>'• '+x.t+' — '+(x.od?'متأخر':'قريب الاستحقاق')+(x.v&&x.v!=='—'?': '+pmDelay(x.v):'')).concat(d.typ?['نوع العطل: '+d.typ]:[]).concat(d.det?[d.det]:[])).join('\n'),repair:d.fix}}
 
 let syncing=false,lastOk=null,offline=false,localOnly=false,authed=false,fdb=null,fauth=null,unsub=null;
 const stamp=()=>{const n=new Date();lastOk=`${n.getHours()%12||12}:${p2(n.getMinutes())}:${p2(n.getSeconds())}`;setPill()};
@@ -641,10 +752,11 @@ function dur(a,b){
   return p.length?p.join(' و '):'0 دقيقة';
 }
 function detHtml(d){
-  const pm=(d.pm||[]).map(x=>`<div class="pb">• ${esc(x.t)} — <b class="${x.od?'po':'ps'}">${x.od?'متأخر':'قريب الاستحقاق'}</b>${x.v&&x.v!=='—'?': '+esc(x.v):''}</div>`).join('');
-  const t=d.det&&String(d.det).trim();
-  if(!pm&&!t)return'—';
-  return pm+(t?`<div${pm?' class="pd"':''}>${esc(t)}</div>`:'');
+  const pm=(d.pm||[]).map(x=>`<div class="pb" dir="rtl">• <bdi>${esc(x.t)}</bdi> — <b class="${x.od?'po':'ps'}">${x.od?'متأخر':'قريب الاستحقاق'}</b>${x.v&&x.v!=='—'?': '+esc(pmDelay(x.v)):''}</div>`).join('');
+  const ty=d.typ&&String(d.typ).trim(),t=d.det&&String(d.det).trim();
+  const tyH=ty?`<div class="pb"${pm?' style="margin-top:6px;padding-top:6px;border-top:1px dashed #cdd6e6"':''}><b>نوع العطل:</b> ${esc(ty)}</div>`:'';
+  if(!pm&&!ty&&!t)return'—';
+  return pm+tyH+(t?`<div${(pm||ty)?' class="pd"':''}>${esc(t)}</div>`:'');
 }
 function build(d){
   const cl=closed(d),n=new Date(),today=`${n.getDate()}/${n.getMonth()+1}/${n.getFullYear()}`;
@@ -713,11 +825,30 @@ async function pmFetch(){
   }));
   pmSave(nc);return nc;
 }
+const PM_UNITS={month:['شهر واحد','شهران','أشهر','شهرًا','شهر'],day:['يوم واحد','يومان','أيام','يومًا','يوم'],hour:['ساعة واحدة','ساعتان','ساعات','ساعة','ساعة'],week:['أسبوع واحد','أسبوعان','أسابيع','أسبوعًا','أسبوع']};
+function pmUnitKey(u){u=u.toLowerCase();return /^k/.test(u)?'km':/^mo/.test(u)?'month':/^d/.test(u)?'day':/^(h)/.test(u)?'hour':'week'}
+function pmQty(num,unit){   /* "15" + "month(s)"  →  "15 شهرًا"  (correct Arabic number agreement) */
+  const k=pmUnitKey(unit),txt=latinDigits(num),n=parseFloat(txt.replace(/,/g,''));
+  if(k==='km')return txt+' كم';
+  const t=PM_UNITS[k];
+  if(Number.isInteger(n)){if(n===1)return t[0];if(n===2)return t[1];if(n>=3&&n<=10)return txt+' '+t[2];if(n>=11)return txt+' '+t[3]}
+  return txt+' '+t[4];
+}
 function pmDelay(v){
   let s=pmClean(v);if(!s)return'—';
-  return s.replace(/\bkilometers?\b/gi,'كم').replace(/\bkm?s?\b/gi,'كم').replace(/\bmonths?\s+and\s+/gi,'شهر و ').replace(/\bdays?\s+and\s+/gi,'يوم و ')
-    .replace(/\bmonths?\b/gi,'شهر').replace(/\bdays?\b/gi,'يوم').replace(/\bhours?\b/gi,'ساعة').replace(/\bweeks?\b/gi,'أسبوع')
-    .replace(/\bsoon\b/gi,'قريب الاستحقاق').replace(/\boverdue\b/gi,'متأخر').replace(/شهور/g,'شهر').replace(/أيام|ايام/g,'يوم');
+  if(!/[A-Za-z]/.test(s))return s.replace(/\s*متأخر\s*$/,'').trim()||'—';   /* already Arabic (older saved reports) */
+  s=latinDigits(s).replace(/\(s\)/gi,'')
+    .replace(/(?:شهور|أشهر|اشهر|شهر)/g,'month').replace(/(?:أيام|ايام|يوم)/g,'day').replace(/(?:ساعات|ساعة)/g,'hour').replace(/(?:أسابيع|اسابيع|أسبوع|اسبوع)/g,'week')
+    .replace(/كم/g,'km').replace(/قريب الاستحقاق/g,'soon').replace(/متأخر/g,'overdue').replace(/\s+/g,' ').trim();
+  const Q='(\\d[\\d,]*(?:\\.\\d+)?)\\s*(kilometers?|kms?|months?|mos?|days?|hours?|hrs?|weeks?)\\b\\.?',R=x=>new RegExp(x,'i');
+  let m;
+  if(m=s.match(R('^'+Q+'\\s+past\\s+the\\s+'+Q+'\\s+check\\s+interval\\.?$')))return `${pmQty(m[1],m[2])} بعد فترة الفحص (${pmQty(m[3],m[4])})`;
+  if(m=s.match(R('^'+Q+'\\s+(?:to|until|before)\\s+(?:overdue|due)\\.?$')))return `متبقي ${pmQty(m[1],m[2])}`;
+  if(m=s.match(R('^'+Q+'\\s+overdue\\.?$')))return pmQty(m[1],m[2]);
+  /* unknown wording: translate piece by piece, keeping the order */
+  return s.replace(new RegExp(Q,'gi'),(a,n,u)=>pmQty(n,u))
+    .replace(/\bpast the\b/gi,'بعد').replace(/\bcheck interval\b/gi,'فترة الفحص').replace(/\bto overdue\b/gi,'حتى التأخر')
+    .replace(/\boverdue\b/gi,'متأخر').replace(/\bsoon\b/gi,'قريب الاستحقاق').replace(/\s+/g,' ').trim();
 }
 /* returns null when the portal data cannot be reached (then the PDF simply has no PM page) */
 async function pmLookup(plate){
@@ -757,7 +888,7 @@ async function makePdf(r){
   return pdf;
 }
 function download(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
-function waText(d){const cl=closed(d);return `${cl?'🟢 تم الانتهاء':'🔴 مفتوح'} — بلاغ عطل\nرقم السيارة: ${d.plate}${custOfRec(d)?'\nالعميل: '+custOfRec(d):''}\nالتاريخ: ${fmtDT(d.rep)}${d.place?'\nمكان العطل: '+d.place:''}${wsOf(d)?'\nالورشة: '+wsOf(d):''}`}
+function waText(d){const cl=closed(d);return `${cl?'🟢 تم الانتهاء':'🔴 مفتوح'} — بلاغ عطل\nرقم السيارة: ${d.plate}${custOfRec(d)?'\nالعميل: '+custOfRec(d):''}\nالتاريخ: ${fmtDT(d.rep)}${d.place?'\nمكان العطل: '+d.place:''}${d.typ?'\nنوع العطل: '+d.typ:''}${wsOf(d)?'\nالورشة: '+wsOf(d):''}`}
 
 /* ---------- WhatsApp dialog ---------- */
 let dlgState=null;
@@ -820,7 +951,7 @@ function fillForm(d){
   $('f').reset();pmSetFor((d.plate||'').trim(),d.pm||[]);
   if(ENGINEERS.includes(d.eng)||!d.eng){$('eng').value=d.eng||'';$('engOther').style.display='none'}
   else{$('eng').value='__other';$('engOther').style.display='';$('engOther').value=d.eng}
-  $('plate').value=d.plate||'';$('cust').value=d.cust||'';$('cust').dataset.man=d.cust?'1':'';$('drv').value=d.drv||'';$('place').value=d.place||'';$('det').value=d.det||'';
+  $('plate').value=d.plate||'';$('cust').value=d.cust||'';$('cust').dataset.man=d.cust?'1':'';$('drv').value=d.drv||'';$('place').value=d.place||'';$('typ').value=d.typ||'';$('det').value=d.det||'';
   $('stop').value=d.stop||'';$('fix').value=d.fix||'';$('tech').value=d.tech||'';
   DT.rep.set(d.rep);DT.mov.set(d.mov);DT.end.set(d.end);
 }
@@ -841,7 +972,7 @@ function renderList(){
     return !q||[r.data.plate,r.data.cust,r.data.drv,r.data.eng,r.data.place].join(' ').toLowerCase().includes(q)});
   $('list').innerHTML=l.length?l.map(r=>{const d=r.data,cl=closed(d);
     return `<div class="it ${cl?'ok':''}" data-id="${esc(r.id)}"><div class="bd" data-a="edit"><div class="pl">${esc(d.plate)}<span class="chip">${cl?'تم الانتهاء':'مفتوح'}</span></div>
-    <div class="mt">${esc(fmtDT(d.rep))}${d.eng?' — '+esc(d.eng):''}${d.place?' — '+esc(d.place):''}</div></div>
+    <div class="mt">${esc(fmtDT(d.rep))}${d.eng?' — '+esc(d.eng):''}${d.place?' — '+esc(d.place):''}${d.typ?' — '+esc(d.typ):''}</div></div>
     <div class="ac"><button data-a="edit">${cl?'فتح':'استكمال'}</button><button data-a="pdf">PDF</button><button data-a="wa">واتساب</button><button class="dg" data-a="del">حذف</button></div></div>`}).join(''):'<div class="empty">لا توجد بلاغات</div>';
 }
 $('list').addEventListener('click',async e=>{
