@@ -263,8 +263,7 @@ input::placeholder{font-weight:400}
 
 <div class="ov" id="dlg"><div class="bx"><h3 id="dTitle"></h3><p id="dFile"></p>
  <button type="button" class="wa" id="dShare">إرسال التقرير إلى جروب واتساب</button>
- <a id="dGroup" href="https://chat.whatsapp.com/H7gqTYh7ZDe47IcocXQ8sP" target="_blank" rel="noopener">فتح جروب واتساب</a>
- <button type="button" id="dClose">تم</button></div></div>
+ <button type="button" id="dClose">انشاء بلاغ عطل جديد</button></div></div>
 
 <div class="ov" id="pwd"><div class="bx"><h3>كلمة مرور الفريق</h3><p id="pwdMsg">اكتب كلمة المرور لمزامنة البلاغات مع باقي المستخدمين (مرة واحدة على هذا الجهاز).</p>
  <input id="pwdIn" type="password" autocomplete="off" placeholder="كلمة المرور">
@@ -898,17 +897,18 @@ function openDlg(rec,blob){
   $('dFile').textContent=fname(rec.data);$('dlg').style.display='flex';
 }
 async function shareRec(rec,blob){
+  const fromDialog=!!blob;
   try{
     if(!blob)blob=(await makePdf(rec.data)).output('blob');
     const file=new File([blob],fname(rec.data),{type:'application/pdf'});
     if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text:waText(rec.data)});return}
-    download(blob,fname(rec.data));
-    toast('هذا الجهاز لا يدعم المشاركة المباشرة — تم تنزيل الملف، أرفقه في جروب واتساب','err');
-    window.open('https://chat.whatsapp.com/H7gqTYh7ZDe47IcocXQ8sP','_blank');
+    if(!fromDialog)download(blob,fname(rec.data));   /* already downloaded when saved */
+    toast('تم تنزيل الملف — اختر الشخص أو الجروب في واتساب ثم أرفق الملف من التنزيلات','err');
+    window.open('https://wa.me/?text='+encodeURIComponent(waText(rec.data)),'_blank');
   }catch(e){if(e&&e.name==='AbortError')return;toast('تعذر الإرسال: '+(e&&e.message||e),'err')}
 }
 $('dShare').onclick=()=>shareRec(dlgState.rec,dlgState.blob);
-$('dClose').onclick=()=>{$('dlg').style.display='none';newForm();show('list')};
+$('dClose').onclick=()=>{$('dlg').style.display='none';newForm();show('new');window.scrollTo({top:0})};
 
 /* ---------- save ---------- */
 let busy=false;
