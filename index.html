@@ -265,6 +265,14 @@ input::placeholder{font-weight:400}
  <button type="button" class="wa" id="dShare">إرسال التقرير إلى جروب واتساب</button>
  <button type="button" id="dClose">انشاء بلاغ عطل جديد</button></div></div>
 
+<div class="ov" id="loginDlg" style="z-index:70"><div class="bx"><h3>تسجيل الدخول</h3><p id="loginMsg" style="color:#d71f26;min-height:18px;word-break:normal">اكتب الكود الخاص بك للدخول إلى التطبيق</p>
+ <input id="loginIn" type="password" inputmode="numeric" autocomplete="off" placeholder="الكود">
+ <button type="button" class="go" id="loginGo">دخول</button></div></div>
+
+<div class="ov" id="delDlg" style="z-index:65"><div class="bx"><h3>حذف البلاغ</h3><p id="delMsg" style="color:#d71f26;min-height:18px;word-break:normal">اكتب كلمة مرور الحذف</p>
+ <input id="delPw" type="password" autocomplete="off" placeholder="كلمة المرور">
+ <button type="button" class="go" id="delGo" style="background:#d71f26;border-color:#d71f26">حذف نهائيًا</button><button type="button" id="delCancel">إلغاء</button></div></div>
+
 <div class="ov" id="pwd"><div class="bx"><h3>كلمة مرور الفريق</h3><p id="pwdMsg">اكتب كلمة المرور لمزامنة البلاغات مع باقي المستخدمين (مرة واحدة على هذا الجهاز).</p>
  <input id="pwdIn" type="password" autocomplete="off" placeholder="كلمة المرور">
  <button type="button" class="go" id="pwdOk">دخول</button><button type="button" id="pwdNo">العمل على هذا الجهاز فقط</button></div></div>
@@ -296,6 +304,42 @@ const $=id=>document.getElementById(id);
 const ENGINEERS=['محمود فايز','محمد على سليم','اسلام الجمال','فايز','صبرى مرزوق'];
 const WS_OF={'محمود فايز':'الاسكندرية','محمد على سليم':'الاسكندرية','اسلام الجمال':'القطامية','فايز':'القطامية','صبرى مرزوق':'مطروح'};
 $('eng').innerHTML='<option value="">— اختر —</option>'+ENGINEERS.map(c=>`<option>${c}</option>`).join('')+'<option value="__other">كتابة يدوية...</option>';
+/* ---------- users (code -> person) ---------- */
+const USERS={'1988':{name:'Eng. Nour',admin:true,del:true},'2001':{name:'Eng. Menna',admin:false,del:true},
+ '111':{name:'محمود فايز'},'23':{name:'محمد على سليم'},'35':{name:'اسلام الجمال'},'40':{name:'فايز'},'55':{name:'صبرى مرزوق'}};
+const DEL_HASH='9b11a176947d7342e3cb9b195b0399cbf43beef6d96a3b60d4b3e508b0a0427c';
+const UKEY='rt_user_code';
+let ME=null;
+const isEngUser=()=>ME&&!ME.admin&&!ME.del;   /* the 5 engineers: name is fixed in the form */
+function canEdit(rec){
+  if(!ME)return false;if(ME.admin)return true;const d=rec.data||{};
+  if(d.by)return d.by===ME.code||(isEngUser()&&d.eng===ME.name);
+  return isEngUser()&&d.eng===ME.name;   /* old records without owner: match by engineer name */
+}
+const canDel=()=>!!(ME&&ME.del);
+async function sha256(t){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return null}}
+function applyEng(){
+  if(!ME)return;
+  if(isEngUser()){$('eng').value=ME.name;$('eng').disabled=true;$('engOther').style.display='none'}
+  else{$('eng').disabled=false}
+}
+function setUser(code,remember){
+  ME=Object.assign({code},USERS[code]);
+  if(remember){try{localStorage.setItem(UKEY,code)}catch(e){}}
+  $('loginDlg').style.display='none';
+  let u=$('uchip');if(!u){u=document.createElement('button');u.id='uchip';u.type='button';u.style.cssText='flex:0 0 auto;margin-inline-start:6px;font-size:12px;border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:2px 10px;color:#fff';
+    u.onclick=()=>{if(confirm('تسجيل الخروج؟')){try{localStorage.removeItem(UKEY)}catch(e){}ME=null;$('f').reset&&newForm();$('loginIn').value='';$('loginMsg').textContent='اكتب الكود الخاص بك للدخول إلى التطبيق';$('loginDlg').style.display='flex';show('new');$('loginIn').focus()}};
+    $('tabs')&&$('tabs').appendChild(u)||document.querySelector('.tabs').appendChild(u)}
+  u.textContent='👤 '+ME.name+' ⟲';
+  applyEng();
+  if(typeof renderList==='function'&&$('vList').style.display!=='none')renderList();
+}
+function tryLogin(){
+  const c=latinDigits($('loginIn').value).trim();
+  if(!USERS[c]){$('loginMsg').textContent='الكود غير صحيح';$('loginIn').select();return}
+  setUser(c,true);
+}
+$('loginGo').onclick=tryLogin;$('loginIn').addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
 $('eng').onchange=()=>{const o=$('eng').value==='__other';$('engOther').style.display=o?'':'none';if(o)$('engOther').focus()};
 
 /* ---------- helpers ---------- */
@@ -925,7 +969,13 @@ $('save').onclick=async()=>{
     if(!f.plate)$('plate').classList.add('bad');
     markErrs(errs.map(e=>e[0]).concat(rr.empty?['rep']:[]));
     const [el,msg]=all[0];toast(msg,'err');el.scrollIntoView({block:'center',behavior:'smooth'});el.focus&&el.focus();return}
+  if(!ME){toast('سجّل الدخول أولًا','err');$('loginDlg').style.display='flex';return}
+  if(editing&&!canEdit(editing)){toast('غير مسموح لك بتعديل هذا البلاغ','err');return}
+  if(isEngUser())f.eng=ME.name;
   const data=Object.assign({},f,{rep:res.rep,mov:res.mov||null,end:res.end||null});
+  const ob=editing&&editing.data?editing.data.by:null;
+  if(ob)data.by=ob;else if(!editing)data.by=ME.code;
+  if(!editing||!editing.data.byName)data.byName=editing&&editing.data.byName?editing.data.byName:ME.name;else data.byName=editing.data.byName;
   busy=true;$('save').disabled=true;const old=$('save').textContent;$('save').textContent='جارٍ إنشاء التقرير...';
   try{
     const S=stLoad(),now=Date.now();let rec=editing?S.recs.find(x=>x.id===editing.id):null;
@@ -943,7 +993,7 @@ $('save').onclick=async()=>{
 function newForm(){
   editing=null;pmSetFor('',[]);$('f').reset();$('cust').dataset.man='';Object.values(DT).forEach(x=>{x.clear();x.mark(false)});
   $('engOther').style.display='none';$('editBar').style.display='none';
-  document.querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));refresh();
+  document.querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));applyEng();refresh();
 }
 $('clr').onclick=()=>{if(confirm('مسح كل البيانات المكتوبة؟'))newForm()};
 $('cancelEdit').onclick=()=>{newForm()};
@@ -957,6 +1007,7 @@ function fillForm(d){
 }
 function editRec(id){
   const rec=dbList().find(x=>x.id===id);if(!rec)return;
+  if(!canEdit(rec)){toast('هذا البلاغ يمكن استكماله فقط بواسطة من سجّله أو م/نور','err');return}
   editing=rec;fillForm(rec.data);
   $('editName').textContent=rec.data.plate+' — '+fmtDT(rec.data.rep);$('editBar').style.display='flex';
   show('new');refresh();window.scrollTo({top:0});
@@ -971,17 +1022,29 @@ function renderList(){
   l=l.filter(r=>{const cl=closed(r.data);if(flt==='open'&&cl)return false;if(flt==='closed'&&!cl)return false;
     return !q||[r.data.plate,r.data.cust,r.data.drv,r.data.eng,r.data.place].join(' ').toLowerCase().includes(q)});
   $('list').innerHTML=l.length?l.map(r=>{const d=r.data,cl=closed(d);
-    return `<div class="it ${cl?'ok':''}" data-id="${esc(r.id)}"><div class="bd" data-a="edit"><div class="pl">${esc(d.plate)}<span class="chip">${cl?'تم الانتهاء':'مفتوح'}</span></div>
+    return `<div class="it ${cl?'ok':''}" data-id="${esc(r.id)}"><div class="bd" ${canEdit(r)?'data-a="edit"':''}><div class="pl">${esc(d.plate)}<span class="chip">${cl?'تم الانتهاء':'مفتوح'}</span></div>
     <div class="mt">${esc(fmtDT(d.rep))}${d.eng?' — '+esc(d.eng):''}${d.place?' — '+esc(d.place):''}${d.typ?' — '+esc(d.typ):''}</div></div>
-    <div class="ac"><button data-a="edit">${cl?'فتح':'استكمال'}</button><button data-a="pdf">PDF</button><button data-a="wa">واتساب</button><button class="dg" data-a="del">حذف</button></div></div>`}).join(''):'<div class="empty">لا توجد بلاغات</div>';
+    <div class="ac">${canEdit(r)?`<button data-a="edit">${cl?'فتح':'استكمال'}</button>`:''}<button data-a="pdf">PDF</button><button data-a="wa">واتساب</button>${canDel()?'<button class="dg" data-a="del">حذف</button>':''}</div></div>`}).join(''):'<div class="empty">لا توجد بلاغات</div>';
 }
+let delId=null;
+$('delCancel').onclick=()=>{$('delDlg').style.display='none';delId=null};
+async function doDel(){
+  if(!canDel()||!delId)return;
+  const h=await sha256($('delPw').value);
+  if(h!==DEL_HASH){$('delMsg').textContent='كلمة المرور غير صحيحة';$('delPw').select();return}
+  const S=stLoad();S.recs=S.recs.filter(x=>x.id!==delId);if(API)S.dels.push(delId);stSave();
+  $('delDlg').style.display='none';delId=null;updCount();renderList();syncNow();toast('تم حذف البلاغ','ok');
+}
+$('delGo').onclick=doDel;$('delPw').addEventListener('keydown',e=>{if(e.key==='Enter')doDel()});
 $('list').addEventListener('click',async e=>{
   const b=e.target.closest('[data-a]');if(!b)return;const id=b.closest('.it').dataset.id,a=b.dataset.a;
   const rec=dbList().find(x=>x.id===id);if(!rec)return;
   if(a==='edit')editRec(id);
   else if(a==='pdf'){try{toast('جارٍ إنشاء التقرير...');download((await makePdf(rec.data)).output('blob'),fname(rec.data))}catch(x){toast('تعذر إنشاء التقرير','err')}}
   else if(a==='wa')shareRec(rec);
-  else if(a==='del'){if(confirm(API?'حذف هذا البلاغ نهائيًا لدى جميع المستخدمين؟':'حذف هذا البلاغ نهائيًا من هذا الجهاز؟')){const S=stLoad();S.recs=S.recs.filter(x=>x.id!==id);if(API)S.dels.push(id);stSave();updCount();renderList();syncNow()}}
+  else if(a==='del'){
+    if(!canDel()){toast('الحذف مسموح فقط لـ م/منة و م/نور','err');return}
+    delId=id;$('delPw').value='';$('delMsg').textContent='اكتب كلمة مرور الحذف';$('delDlg').style.display='flex';setTimeout(()=>$('delPw').focus(),50)}
 });
 document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{flt=b.dataset.f;document.querySelectorAll('.flt button').forEach(x=>x.classList.toggle('on',x===b));renderList()});
 $('q').addEventListener('input',renderList);
@@ -993,6 +1056,8 @@ function show(v){
 $('tabNew').onclick=()=>show('new');$('tabList').onclick=()=>show('list');
 $('f').addEventListener('submit',e=>e.preventDefault());
 updCount();refresh();setPill();
+(function(){let c=null;try{c=localStorage.getItem(UKEY)}catch(e){}
+  if(c&&USERS[c])setUser(c,false);else{$('loginDlg').style.display='flex';setTimeout(()=>$('loginIn').focus(),100)}})();
 fbStart();
 if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
 </script>
