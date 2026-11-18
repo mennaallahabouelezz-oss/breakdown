@@ -1,19 +1,22 @@
-RADY TRANS - Breakdown App (Firebase shared database)
+RADY TRANS - Unified App (بلاغ عطل خارجى + الصيانات المتأخرة للأسطول) with entrance codes
 
-USERS: no password. Every device signs in automatically (Anonymous).
-ADMIN: hidden tab. Tap the Rady Trans logo (top right) 5 times quickly -> enter the admin password.
+OPEN:  index.html  (the only entry point). Enter the code -> choose the app -> switch any time from the top bar.
 
-A) Firebase (once)
- 1. Authentication > Sign-in method:  Anonymous = Enabled  AND  Email/Password = Enabled.
- 2. Authentication > Users > Add user:
-        email    = admin@radytrans.app
-        password = (the admin password, e.g. MENNA@2025)
-    (this password is checked by Firebase itself; it is not written anywhere in the app files)
- 3. Firestore Database > Rules > paste firestore.rules > Publish.
- 4. config.js: keep teamEmail empty; adminEmail must equal the email in step 2 AND in firestore.rules.
+A) Firebase (once) - project "radytrans-breakdowns"
+  1. Firestore > Rules > paste firestore.rules > Publish   (adds the appUsers rules; nothing else changes)
+  2. Authentication > Users > admin@radytrans.app > set the password to  Rady@2026
+     (this one password is used for: uploading the cars workbook, and the Users screen)
+  The data (reports, cars workbook, maintenance sheets, plans) stays in the SAME Firebase databases as before. Nothing was moved.
 
-B) Upload to GitHub (repo "breakdown"): Add file > Upload files > drag ALL the files and the lib folder > Commit.
+B) Upload ALL files + lib folder to GitHub/Netlify (replace the old ones).
 
-C) Admin: upload the cars workbook
- Open the app > tap the logo 5 times > password > "الإدارة" tab > choose the Excel file >
- check the customer names > "حفظ واستبدال الكشف القديم". Re-upload any time: the old one is replaced.
+C) First run
+  1. Sign in with code 2001 (Menna) > "المستخدمون" > password > press "تحديث المستخدمين الأساسيين" once.
+  2. Users: Nour 1988, Menna 2001, محمود فايز 111, محمد على سليم 23, اسلام الجمال 35, فايز 40, صبرى مرزوق 55,
+     عماد الجوهرى 77, مصطفى حكيم 80, محمد حسن 100, حمادة سليم 90.
+
+WHO CAN DO WHAT
+  Menna : everything; only she uploads/deletes maintenance sheets (password Rady@2026) and uploads the cars workbook (password);
+          completes/edits any report (like Nour); can delete reports; manages users.
+  Nour  : both apps, completes/edits any report, deletes reports.
+  Engineers (incl. the 4 new): both apps; their name is fixed in the report form; they complete only their own reports.
