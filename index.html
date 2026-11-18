@@ -209,7 +209,7 @@ function toast(t,k){const m=$('toast');m.textContent=t;m.className=k||'';m.style
 /* ---------- permissions ---------- */
 const PERMS=[
  {g:'الصيانات المتأخرة للأسطول',k:'portal',t:'عرض الصيانات المتأخرة',d:'البحث برقم السيارة، النسب، التقارير'},
- {k:'portal_reports',t:'التحليلات وقائمة الملفات',d:'تحليلات الصيانات الوقائية وقائمة الملفات المرفوعة (عرض فقط)'},
+ {k:'portal_reports',t:'التحليلات وقائمة الملفات',d:'تحليلات الصيانات الوقائية وقائمة الملفات المرفوعة وتقرير نشاط المستخدمين (عرض فقط) — بدونها تظهر شاشة البحث فقط'},
  {k:'portal_manage',t:'رفع وحذف ملفات الصيانة',d:'رفع/حذف ملفات Excel (مع كلمة المرور)'},
  {g:'بلاغ عطل خارجى',k:'breakdown',t:'بلاغ عطل خارجى',d:'إنشاء بلاغ وعرض البلاغات واستكمال بلاغاته'},
  {k:'breakdown_all',t:'تعديل كل البلاغات',d:'استكمال/تعديل بلاغات الآخرين'},
@@ -221,8 +221,9 @@ const ALLP=PERMS.map(p=>p.k);
 const ROLES={
  admin:{t:'مدير النظام',p:ALLP},
  manager:{t:'مدير / مكتب فني',p:['portal','portal_reports','breakdown','breakdown_all','breakdown_delete']},
- engineer:{t:'مهندس استقبال',p:['portal','breakdown']},
- viewer:{t:'مشاهدة فقط',p:['portal']},
+ engineer:{t:'مهندس — التطبيقان (مع التبديل)',p:['portal','breakdown']},
+ breakdown_only:{t:'بلاغ عطل خارجى فقط',p:['breakdown']},
+ viewer:{t:'الصيانات المتأخرة فقط',p:['portal']},
  custom:{t:'مخصص',p:[]}
 };
 const PLABEL=Object.fromEntries(PERMS.map(p=>[p.k,p.t]));
@@ -235,13 +236,13 @@ const SEEDS={
  '5802da82370846672b21f6e95e74a7cde6811aeb13fb74efbb766f3e3ec03f9d':{uid:'u-menna',legacyBy:'2001',name:'Eng. Menna',role:'admin',perms:ALLP,engName:'',active:true},
  '318cc397c72a6ea4fed776157c4ef80e0d1421ea865d67f462ed786738769ee1':{uid:'u-111',legacyBy:'111',name:'محمود فايز',role:'engineer',perms:['portal','breakdown'],engName:'محمود فايز',active:true},
  '81c92bef5553a106aae10714e82c045b0051987542d66ae2c8446b1cd13168fe':{uid:'u-23',legacyBy:'23',name:'محمد على سليم',role:'engineer',perms:['portal','breakdown'],engName:'محمد على سليم',active:true},
- 'ae4ffc5167c1fca50010394c372d6cf5bb154a8ed883ff1e572b7a2cff183edd':{uid:'u-35',legacyBy:'35',name:'اسلام الجمال',role:'engineer',perms:['portal','breakdown'],engName:'اسلام الجمال',active:true},
- '157d48be0451eb2b83033a771828077fa20b2dfdb8ff0688d0ec37ccaab97364':{uid:'u-40',legacyBy:'40',name:'فايز',role:'engineer',perms:['portal','breakdown'],engName:'فايز',active:true},
- '5803be1c9a68d577e01dc5c05b9d152328a1413f823e710d2b0dabaef28dd261':{uid:'u-55',legacyBy:'55',name:'صبرى مرزوق',role:'engineer',perms:['portal','breakdown'],engName:'صبرى مرزوق',active:true},
- '1ab98e2a7104e6bb5cf50175e54340235b05c6a570784ecd5b93a3d4b7974abc':{uid:'u-77',legacyBy:'',name:'عماد الجوهرى',role:'engineer',perms:['portal','breakdown'],engName:'عماد الجوهرى',active:true},
- 'f0d2d355dc5815aebfc41ab6795f09f69406da7cb4fd5e50d529ec8e3d89b934':{uid:'u-80',legacyBy:'',name:'مصطفى حكيم',role:'engineer',perms:['portal','breakdown'],engName:'مصطفى حكيم',active:true},
+ 'ae4ffc5167c1fca50010394c372d6cf5bb154a8ed883ff1e572b7a2cff183edd':{uid:'u-35',legacyBy:'35',name:'اسلام الجمال',role:'breakdown_only',perms:['breakdown'],engName:'اسلام الجمال',active:true},
+ '157d48be0451eb2b83033a771828077fa20b2dfdb8ff0688d0ec37ccaab97364':{uid:'u-40',legacyBy:'40',name:'فايز',role:'breakdown_only',perms:['breakdown'],engName:'فايز',active:true},
+ '5803be1c9a68d577e01dc5c05b9d152328a1413f823e710d2b0dabaef28dd261':{uid:'u-55',legacyBy:'55',name:'صبرى مرزوق',role:'breakdown_only',perms:['breakdown'],engName:'صبرى مرزوق',active:true},
+ '1ab98e2a7104e6bb5cf50175e54340235b05c6a570784ecd5b93a3d4b7974abc':{uid:'u-77',legacyBy:'',name:'عماد الجوهرى',role:'viewer',perms:['portal'],engName:'عماد الجوهرى',active:true},
+ 'f0d2d355dc5815aebfc41ab6795f09f69406da7cb4fd5e50d529ec8e3d89b934':{uid:'u-80',legacyBy:'',name:'مصطفى حكيم',role:'viewer',perms:['portal'],engName:'مصطفى حكيم',active:true},
  '4e0c7d72f0952a6f8ec64ed1a31c470ced07815a1e8be09df352ad20c59e9d19':{uid:'u-100',legacyBy:'',name:'محمد حسن',role:'engineer',perms:['portal','breakdown'],engName:'محمد حسن',active:true},
- 'c04457918145079ea49df2588c801211b5a1d8f9c6365adbba0f8a8eaf891629':{uid:'u-90',legacyBy:'',name:'حمادة سليم',role:'engineer',perms:['portal','breakdown'],engName:'حمادة سليم',active:true}
+ 'c04457918145079ea49df2588c801211b5a1d8f9c6365adbba0f8a8eaf891629':{uid:'u-90',legacyBy:'',name:'حمادة سليم',role:'viewer',perms:['portal'],engName:'حمادة سليم',active:true}
 };
 
 /* ---------- hashing (SHA-256 of "rt|"+code) ---------- */
@@ -367,7 +368,9 @@ function startApp(u){
   $('whoName').textContent='👤 '+u.name;
   const apps=VIEWS.filter(v=>v.p&&v.id!=='users'&&allowed(v));
   if(!VIEWS.some(v=>v.p&&allowed(v))){$('nav').innerHTML='';$('views').innerHTML='<div style="padding:40px 20px;text-align:center;color:#5d6b82">لا توجد صلاحيات مفعّلة لهذا الحساب — راجع الإدارة.</div>';return}
-  $('nav').innerHTML=VIEWS.filter(allowed).filter(v=>v.id!=='home'||apps.length>1).map(v=>`<button type="button" data-v="${v.id}">${v.t}</button>`).join('');
+  /* one app only (and no user admin) -> no switcher exists; two apps -> home + both apps */
+  const navViews=(apps.length<2&&!RT.can('users'))?[]:VIEWS.filter(allowed).filter(v=>v.id!=='home'||apps.length>1);
+  $('nav').innerHTML=navViews.map(v=>`<button type="button" data-v="${v.id}">${v.t}</button>`).join('');
   $('nav').onclick=e=>{const b=e.target.closest('button[data-v]');if(b)showView(b.dataset.v)};
   $('homeWho').textContent='أهلًا '+u.name;
   $('choices').innerHTML=apps.map(v=>`<button type="button" class="choice ${v.cls||''}" data-v="${v.id}"><span class="ic">${v.ic}</span>${v.t}<small>${v.d}</small></button>`).join('');

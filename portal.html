@@ -86,6 +86,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1
 #printSheet .chartbox{padding:8px}#printSheet .bar{font-size:11px;margin:2px 0}#printSheet .ctable th,#printSheet .ctable td{padding:3px 6px;font-size:12px}
 #printSheet .kpis{margin:8px 0}#printSheet .charts{margin:8px 0}#printSheet .formula{font-size:13px}
 #printSheet .closed-table th,#printSheet .closed-table td{font-size:11.5px;padding:4px 6px;vertical-align:top}#printSheet .closed-table thead{display:table-header-group}#printSheet .closed-table tr{break-inside:avoid}#printSheet .closed-table td:nth-child(1),#printSheet .closed-table td:nth-child(2),#printSheet .closed-table td:nth-child(3),#printSheet .closed-table td:nth-child(4),#printSheet .closed-table td:nth-child(9){white-space:nowrap}#printSheet .closed-table td:nth-child(7){white-space:nowrap}#printSheet .closed-table td{word-break:normal}
+#printSheet .actday{margin-bottom:14px}#printSheet .actday .ph2{break-after:avoid}
 #printSheet .pfoot{margin-top:8px;font-size:11px;color:#666}
 .fleet-card{margin-top:18px}
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:12px 0}
@@ -119,6 +120,19 @@ table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1
 .pxbar{display:grid;grid-template-columns:minmax(80px,32%) 1fr 64px;gap:6px;align-items:center;margin:4px 0;font-size:12px;text-align:start}
 .pxbar .bl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pxbar .pt{display:flex;flex-direction:column;gap:2px}.pxbar .pt i{display:block;height:7px;border-radius:4px}.pxbar .bv{font-weight:800;text-align:end}
 .pe-note{color:#69788a;font-size:12px}
+html.no-reports .upload,html.no-reports .pm-toggle-wrap,html.no-reports #pmPanel,html.no-reports #actModal{display:none!important}
+html.no-reports .grid{grid-template-columns:minmax(0,780px);justify-content:center}
+html.no-reports .grid .card h2#searchTitle{text-align:center}
+html.no-reports .grid .search{max-width:640px;margin-inline:auto}
+html.no-reports #searchStatus,html.no-reports #dbInfo{text-align:center}
+html.no-manage #uploadTitle,html.no-manage #uploadDesc,html.no-manage #uploadStatus{display:none!important}
+.act-btn2{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0a1e38;border:1.5px solid #174b7a;border-radius:999px;padding:10px 18px;font-size:15px;font-weight:700;cursor:pointer}
+.act-btn2:hover{background:#eef5fc}
+.pm-toggle-wrap{gap:12px;flex-wrap:wrap}
+#actModal .modal-card{width:min(470px,100%)}#actModal label{display:block;font-size:13px;font-weight:700;color:#536274;margin:10px 0 4px}
+#actModal select,#actModal input[type=date]{width:100%;padding:11px;border:1px solid #c8d3df;border-radius:10px;font-size:16px;margin-bottom:0;background:#fff}
+#actModal .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}#actModal .acts{display:flex;gap:10px;margin-top:16px}#actModal .acts button{flex:1}
+#actModal .sum{margin-top:12px;font-size:14px;color:#243447;background:#f2f5f9;border-radius:10px;padding:9px 12px;min-height:38px}
 .fe-new{display:inline-block;margin-inline-start:6px;background:#e8f3ec;color:#16734a;border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700}
 .fleet-edit input.fe-n{width:230px;max-width:100%}
 @media(max-width:850px){#fleetSummary .kpis,#fleetSummary .charts,#pmcSummary .kpis,#pmcSummary .charts{grid-template-columns:1fr}.ctable{overflow-x:auto}}.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.chip{border:1px solid var(--line);background:#f7f9fc;border-radius:12px;padding:9px 14px;font-size:14px}.chip b{color:var(--navy)}.chip small{color:var(--muted);display:block;margin-top:2px}
@@ -173,7 +187,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1
     </section>
   </div>
 
-  <div class="pm-toggle-wrap no-print"><button type="button" id="pmToggleBtn" class="pm-toggle" aria-expanded="false" aria-controls="pmPanel"><span class="pm-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg></span><span id="pmToggleLabel">PM Analytics</span><svg class="pm-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div>
+  <div class="pm-toggle-wrap no-print"><button type="button" id="pmToggleBtn" class="pm-toggle" aria-expanded="false" aria-controls="pmPanel"><span class="pm-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg></span><span id="pmToggleLabel">PM Analytics</span><svg class="pm-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><button type="button" id="actOpenBtn" class="act-btn2" dir="rtl">📋 تقرير نشاط المستخدمين</button></div>
   <div id="pmPanel" class="hidden no-print">
   <section class="card fleet-card" id="fleetSummary">
     <div class="toolbar"><h2 id="fleetTitle">Planned PM Percentage</h2><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="secondary" id="editFleetBtn">✎ Edit customers &amp; planned PM</button><button type="button" class="primary" id="printCoverageBtn">🖨 PDF report (2 pages)</button></div></div>
@@ -187,7 +201,8 @@ table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1
   </section>
   </div>
 
-  <button type="button" id="printPageBtn" class="primary no-print" style="margin-left:8px">🖨 Print / Save Page</button>\n<section id="results" class="hidden">
+  <button type="button" id="printPageBtn" class="primary no-print" style="margin-left:8px">🖨 Print / Save Page</button>
+<section id="results" class="hidden">
     <div class="stats">
       <div class="stat"><div id="vehicleTitle" class="num">—</div><div class="label" id="plateLabel">Plate Number</div></div>
       <div class="stat"><div id="overdueCount" class="num red">0</div><div class="label" id="overdueLabel">Overdue</div></div>
@@ -219,6 +234,21 @@ table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1
 </main>
 <div id="printSheet"></div>
 
+<div id="actModal" class="modal hidden no-print" dir="rtl">
+  <div class="modal-card">
+    <button id="actClose" class="modal-close" type="button" style="right:auto;left:12px">×</button>
+    <h2>تقرير نشاط المستخدمين</h2>
+    <p>اللوحات التي بحث عنها المستخدم والمهام التي أغلقها، يومًا بيوم، بالتاريخ والوقت.</p>
+    <label for="actUser">المستخدم</label>
+    <select id="actUser"></select>
+    <div class="row2">
+      <div><label for="actFrom">من تاريخ</label><input type="date" id="actFrom"></div>
+      <div><label for="actTo">إلى تاريخ</label><input type="date" id="actTo"></div>
+    </div>
+    <div class="sum" id="actSum"></div>
+    <div class="acts"><button type="button" class="primary" id="actPrint">🖨 طباعة / حفظ PDF</button><button type="button" class="secondary" id="actToday">اليوم</button></div>
+  </div>
+</div>
 <div id="passwordModal" class="modal hidden">
   <div class="modal-card">
     <button id="closePassword" class="modal-close" type="button">×</button>
@@ -243,6 +273,10 @@ if(!CAN_MANAGE){try{sessionStorage.removeItem("radyTransAdminUnlocked")}catch(e)
 try{if(localStorage.getItem("radyTransLangAr1")!=="1"){localStorage.setItem("radyTransLanguage","ar");localStorage.setItem("radyTransLangAr1","1")}}catch(e){}
 let db, records=[], lang=(function(){try{return localStorage.getItem("radyTransLanguage")||"ar"}catch(e){return "ar"}})();
 let adminUnlocked=CAN_MANAGE&&sessionStorage.getItem("radyTransAdminUnlocked")==="1";
+/* portal_reports = Menna & Nour only: uploaded-files list, PM analysis, user-activity report. Everyone else gets a clean, centered plate search. */
+const CAN_REPORTS=!!(RTS&&RTS.perms&&RTS.perms.indexOf("portal_reports")>=0);
+const ME_UID=(RTS&&RTS.uid)||"", ME_NAME=(RTS&&RTS.name)||"";
+try{document.documentElement.classList.add(CAN_REPORTS?"can-reports":"no-reports");if(!CAN_MANAGE)document.documentElement.classList.add("no-manage")}catch(e){}
 
 const TASK_TRANSLATIONS={
   "air dryer filter change":"تغيير فلتر مجفف الخزانات",
@@ -676,7 +710,7 @@ function closedList(){
   const s=r||{},info=c.customer?{type:c.type||"tractor",customer:c.customer}:(r?fleetInfo(r):{type:"tractor",customer:""});
   out.push({key:c.key,plate:c.plate||s.plate||"",customer:info.customer,type:info.type,
    taskEn:c.taskEn!=null&&c.taskEn!==""?c.taskEn:(s.taskEn||c.task||""),taskAr:c.taskAr!=null&&c.taskAr!==""?c.taskAr:(s.taskAr||""),
-   status:c.status||s.status||"",value:(c.value!==undefined&&c.value!=="")?c.value:(s.value||""),closedAt:Number(c.closedAt)||0,report:c.report||s.report||"",sheet:c.sheet||s.sheet||""});
+   status:c.status||s.status||"",value:(c.value!==undefined&&c.value!=="")?c.value:(s.value||""),closedAt:Number(c.closedAt)||0,closedBy:c.closedBy||"",report:c.report||s.report||"",sheet:c.sheet||s.sheet||""});
  });
  return out.sort((a,b)=>a.closedAt-b.closedAt);
 }
@@ -957,18 +991,110 @@ function rerenderCurrent(){
 }
 async function closeTask(x){
  if(!confirm(tr("closeConfirm")))return;
- const key=closureKey(x),info=fleetInfo(x),c={key,closedAt:Date.now(),plate:x.plate||"",task:x.taskEn||x.taskAr||"",taskEn:x.taskEn||"",taskAr:x.taskAr||"",status:x.status||"",value:x.value==null?"":x.value,customer:info.customer,type:info.type,report:x.report||"",sheet:x.sheet||""};
+ const key=closureKey(x),info=fleetInfo(x),c={key,closedAt:Date.now(),closedBy:ME_NAME,closedByUid:ME_UID,plate:x.plate||"",task:x.taskEn||x.taskAr||"",taskEn:x.taskEn||"",taskAr:x.taskAr||"",status:x.status||"",value:x.value==null?"":x.value,customer:info.customer,type:info.type,report:x.report||"",sheet:x.sheet||""};
  try{
   if(cloudReady)await cloudDb.collection(CLOUD_COLLECTION).doc(closureDocId(key)).set({...c,id:"closure||"+key,kind:"closure",adminKey:CLOUD_ADMIN_KEY});
   closures.set(key,c);saveClosuresLocal();rerenderCurrent();
+  logAct({t:"c",plate:c.plate,taskEn:c.taskEn,taskAr:c.taskAr,status:c.status,value:c.value,customer:c.customer,type:c.type});
  }catch(e){console.error(e);alert(tr("closeFail"))}
 }
 async function reopenTask(x){
  const key=closureKey(x);
  try{
   if(cloudReady)await cloudDb.collection(CLOUD_COLLECTION).doc(closureDocId(key)).delete();
+  const old=closures.get(key)||{};
   closures.delete(key);saveClosuresLocal();rerenderCurrent();
+  logAct({t:"r",plate:x.plate||old.plate||"",taskEn:x.taskEn||old.taskEn||"",taskAr:x.taskAr||old.taskAr||"",status:x.status||old.status||"",value:x.value==null?(old.value||""):x.value,customer:old.customer||"",type:old.type||""});
  }catch(e){console.error(e);alert(tr("closeFail"))}
+}
+/* ================= User activity log + per-user PDF report (report: Menna & Nour only) =================
+   Every plate search and every task close / re-open is stored in the shared database inside
+   one document per user per day (kind:"activity"), so nothing else is touched or re-synced. */
+const KNOWN_USERS=[["u-menna","Eng. Menna"],["u-nour","Eng. Nour"],["u-111","محمود فايز"],["u-23","محمد على سليم"],["u-35","اسلام الجمال"],["u-40","فايز"],["u-55","صبرى مرزوق"],["u-77","عماد الجوهرى"],["u-80","مصطفى حكيم"],["u-100","محمد حسن"],["u-90","حمادة سليم"]];
+const ACT_Q="rtActQueue1";
+const cairoFmt=new Intl.DateTimeFormat("en-CA",{timeZone:"Africa/Cairo",year:"numeric",month:"2-digit",day:"2-digit"});
+const cairoDay=ts=>cairoFmt.format(new Date(ts));
+function actLoadQ(){try{return JSON.parse(localStorage.getItem(ACT_Q)||"[]")}catch(e){return[]}}
+function actSaveQ(q){try{localStorage.setItem(ACT_Q,JSON.stringify(q.slice(-500)))}catch(e){}}
+let actBusy=false,_lastSearchLog={plate:"",ts:0};
+function logAct(ev){
+ if(!ME_UID)return;
+ const q=actLoadQ();q.push(Object.assign({ts:Date.now(),uid:ME_UID,name:ME_NAME},ev));actSaveQ(q);flushAct();
+}
+async function flushAct(){
+ if(!cloudReady||actBusy)return;actBusy=true;
+ try{
+  let q=actLoadQ();
+  while(q.length){
+   const e=q[0],day=cairoDay(e.ts),{uid,name,...ev}=e,id="activity||"+day+"||"+uid;
+   await Promise.race([
+    cloudDb.collection(CLOUD_COLLECTION).doc(cloudDocId(id)).set({id,kind:"activity",day,uid,name,events:firebase.firestore.FieldValue.arrayUnion(ev),adminKey:CLOUD_ADMIN_KEY},{merge:true}),
+    new Promise((_,no)=>setTimeout(()=>no(new Error("timeout")),12000))]);
+   q=actLoadQ().filter(x=>!(x.ts===e.ts&&x.uid===e.uid&&x.t===e.t));actSaveQ(q);
+  }
+ }catch(err){console.warn("activity log",err)}finally{actBusy=false}
+}
+function logSearch(){
+ const v=window.lastView;if(!v||!v.plate)return;
+ const now=Date.now();
+ if(_lastSearchLog.plate===v.plate&&now-_lastSearchLog.ts<20000)return;
+ _lastSearchLog={plate:v.plate,ts:now};
+ logAct({t:"s",plate:v.plate,q:(document.getElementById("plateInput").value||"").trim(),n:v.rows.length});
+}
+function actUsers(){
+ const m=new Map(KNOWN_USERS);
+ actDocs.forEach(d=>{if(d.uid&&d.name)m.set(d.uid,d.name)});
+ return [...m.entries()];
+}
+function actEvents(uid,from,to){
+ const out=[];
+ actDocs.forEach(d=>{if(d.uid===uid&&d.day>=from&&d.day<=to&&Array.isArray(d.events))d.events.forEach(e=>out.push(e))});
+ return out.sort((a,b)=>a.ts-b.ts);
+}
+function actRefreshSummary(){
+ const box=document.getElementById("actSum");if(!box||!CAN_REPORTS)return;
+ const u=document.getElementById("actUser").value,f=document.getElementById("actFrom").value,t=document.getElementById("actTo").value;
+ if(!u||!f||!t){box.textContent="";return}
+ const ev=actEvents(u,f,t),s=ev.filter(e=>e.t==="s"),c=ev.filter(e=>e.t==="c");
+ box.textContent=ev.length?`عمليات بحث: ${s.length} (لوحات مختلفة: ${new Set(s.map(e=>normalizePlate(e.plate))).size}) · مهام مغلقة: ${c.length}`:"لا يوجد نشاط مسجل في هذه الفترة.";
+}
+function actInit(){
+ const sel=document.getElementById("actUser"),keep=sel.value;
+ sel.innerHTML=actUsers().map(([u,n])=>`<option value="${escapeHtml(u)}">${escapeHtml(n)}</option>`).join("");
+ if(keep)sel.value=keep;
+ const today=cairoDay(Date.now());
+ if(!document.getElementById("actFrom").value)document.getElementById("actFrom").value=today;
+ if(!document.getElementById("actTo").value)document.getElementById("actTo").value=today;
+ actRefreshSummary();
+}
+function actBuildPrint(el,header){
+ const r=window.actReport||{},evs=actEvents(r.uid,r.from,r.to);
+ const period=r.from===r.to?r.from:r.from+" → "+r.to;
+ document.title="Rady Trans - تقرير نشاط المستخدم - "+(r.name||"")+" - "+period;
+ el.setAttribute("dir","rtl");
+ const dayFmt=new Intl.DateTimeFormat("ar-EG-u-nu-latn",{timeZone:"Africa/Cairo",weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ const tFmt=new Intl.DateTimeFormat("en-GB",{timeZone:"Africa/Cairo",hour:"2-digit",minute:"2-digit",hour12:false});
+ const sAll=evs.filter(e=>e.t==="s"),cAll=evs.filter(e=>e.t==="c"),rAll=evs.filter(e=>e.t==="r");
+ const plates=new Set(sAll.map(e=>normalizePlate(e.plate))).size;
+ let h=header("تقرير نشاط المستخدم",(r.name||"")+" — الفترة: "+period);
+ h+=`<div class="pstats"><div><b style="font-size:16px">${escapeHtml(r.name||"")}</b><span>المستخدم</span></div><div><b>${sAll.length}</b><span>عمليات البحث</span></div><div><b>${plates}</b><span>لوحات مختلفة تم البحث عنها</span></div><div><b style="color:#16734a">${cAll.length}</b><span>مهام مغلقة</span></div><div><b style="color:#6b7785">${rAll.length}</b><span>إعادة فتح</span></div></div>`;
+ if(!evs.length)h+=`<p>لا يوجد نشاط مسجل لهذا المستخدم في الفترة المحددة.</p>`;
+ const days=new Map();
+ evs.forEach(e=>{const d=cairoDay(e.ts);if(!days.has(d))days.set(d,[]);days.get(d).push(e)});
+ days.forEach((list,d)=>{
+  const s=list.filter(e=>e.t==="s"),c=list.filter(e=>e.t==="c"||e.t==="r");
+  h+=`<div class="actday"><div class="ph2">${escapeHtml(dayFmt.format(new Date(list[0].ts)))} <span style="font-size:13px;color:#555">— ${d}</span></div>`;
+  if(s.length)h+=`<table class="closed-table" style="margin-bottom:8px"><thead><tr><th style="width:34px">#</th><th style="width:70px">الوقت</th><th>رقم اللوحة التي تم البحث عنها</th><th>ما تمت كتابته</th><th style="width:110px">المهام المفتوحة</th></tr></thead><tbody>`+
+   s.map((e,i)=>`<tr><td>${i+1}</td><td>${tFmt.format(new Date(e.ts))}</td><td><strong>${escapeHtml(e.plate||"")}</strong></td><td>${escapeHtml(e.q||"")}</td><td>${e.n==null?"—":e.n}</td></tr>`).join("")+`</tbody></table>`;
+  else h+=`<p style="margin:4px 0 8px;color:#666">لا توجد عمليات بحث في هذا اليوم.</p>`;
+  if(c.length)h+=`<table class="closed-table"><thead><tr><th style="width:34px">#</th><th style="width:70px">الوقت</th><th>رقم اللوحة</th><th>العميل</th><th>المهمة (English)</th><th>المهمة (عربي)</th><th>الحالة</th><th>قيمة التأخير / القرب</th><th style="width:80px">العملية</th></tr></thead><tbody>`+
+   c.map((e,i)=>{const od=e.status==="Overdue";return `<tr><td>${i+1}</td><td>${tFmt.format(new Date(e.ts))}</td><td><strong>${escapeHtml(e.plate||"")}</strong></td><td>${escapeHtml(e.customer||"—")}</td><td dir="ltr">${escapeHtml(e.taskEn||"—")}</td><td dir="rtl">${escapeHtml(e.taskAr||"—")}</td><td><span class="badge ${od?"overdue":"soon"}">${od?"متأخرة":e.status?"قريبة الاستحقاق":"—"}</span></td><td dir="rtl">${escapeHtml(formatDelay(e.value))}</td><td>${e.t==="c"?"<b style='color:#16734a'>إغلاق</b>":"<b style='color:#6b7785'>إعادة فتح</b>"}</td></tr>`}).join("")+`</tbody></table>`;
+  else h+=`<p style="margin:4px 0 8px;color:#666">لا توجد مهام مغلقة في هذا اليوم.</p>`;
+  h+=`</div>`;
+ });
+ h+=`<div class="pfoot">${new Date().toLocaleString("en-GB")} — الأوقات بتوقيت القاهرة</div>`;
+ el.innerHTML=h;
+ el.style.cssText="";el.style.width="1040px";
 }
 let chosenPlateKey=null;
 function renderPlateChoices(groups,q){
@@ -981,7 +1107,7 @@ function renderPlateChoices(groups,q){
  [...groups.entries()].sort((a,b)=>String(a[1]).localeCompare(String(b[1]),"ar")).forEach(([k,label])=>{
   const b=document.createElement("button");b.type="button";b.className="pc-btn"+(k===chosenPlateKey?" sel":"");
   b.textContent=label;
-  b.onclick=()=>{chosenPlateKey=k;render(q)};
+  b.onclick=()=>{chosenPlateKey=k;render(q);logSearch()};
   wrap.appendChild(b);
  });
  box.appendChild(wrap);
@@ -1157,7 +1283,8 @@ const FIREBASE_CONFIG = {
 };
 const CLOUD_ADMIN_KEY = "Rady@2026";
 const CLOUD_COLLECTION = "radyTransMaintenanceRecords";
-let cloudDb=null, cloudReady=false, cloudUnsub=null;
+let cloudDb=null, cloudReady=false, cloudUnsub=null, _cloudSeen=false;
+const actDocs=new Map();
 
 function firebaseConfigured(){ return FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey!=="YOUR_API_KEY"; }
 function cloudDocId(id){ return String(id).replace(/\//g,"_").slice(0,1400); }
@@ -1190,8 +1317,12 @@ function subscribeCloud(){
  if(!cloudReady) return;
  if(cloudUnsub) cloudUnsub();
  cloudUnsub=cloudDb.collection(CLOUD_COLLECTION).onSnapshot(async snap=>{
+  let nonAct=false;
+  snap.docChanges().forEach(ch=>{const d=ch.doc.data()||{};if(d.kind==="activity"){if(ch.type==="removed")actDocs.delete(ch.doc.id);else actDocs.set(ch.doc.id,d)}else nonAct=true});
+  if(_cloudSeen&&!nonAct){if(typeof actRefreshSummary==="function")actRefreshSummary();return}   /* a user-activity write: nothing else to resync */
+  _cloudSeen=true;
   const cloudRecords=[],cloudClosures=new Map();let cloudCfg=null,cloudPmc=null;
-  snap.forEach(doc=>{const d=doc.data();if(d.kind==="closure"&&d.key)cloudClosures.set(d.key,d);else if(d.kind==="fleetconfig"){try{cloudCfg=JSON.parse(d.cfgJson)}catch(e){}}else if(d.kind==="pmcconfig"){try{cloudPmc=JSON.parse(d.cfgJson)}catch(e){}}else cloudRecords.push(d)});
+  snap.forEach(doc=>{const d=doc.data();if(d.kind==="activity")return;if(d.kind==="closure"&&d.key)cloudClosures.set(d.key,d);else if(d.kind==="fleetconfig"){try{cloudCfg=JSON.parse(d.cfgJson)}catch(e){}}else if(d.kind==="pmcconfig"){try{cloudPmc=JSON.parse(d.cfgJson)}catch(e){}}else cloudRecords.push(d)});
   if(cloudCfg){fleetCfg=normCfg(cloudCfg);saveFleetCfgLocal();}
   if(cloudPmc){pmcCfg=normPmcCfg(cloudPmc);savePmcCfgLocal();}
   closures=cloudClosures;saveClosuresLocal();
@@ -1201,6 +1332,7 @@ function subscribeCloud(){
   if(cloudRecords.length) await putMany(cloudRecords);
   records=await getAll();
   setSyncStatus("live");
+  flushAct();
   if(typeof refresh==="function") await refresh();
   const qEl=document.getElementById("plateInput");
   const q=qEl?qEl.value.trim():"";
@@ -1233,7 +1365,7 @@ async function deleteReportsFromCloud(reports){
 async function clearCloudAll(){
  if(!cloudReady) return;
  const snap=await cloudDb.collection(CLOUD_COLLECTION).get();
- const docs=snap.docs;
+ const docs=snap.docs.filter(d=>(d.data()||{}).kind!=="activity");   /* the user-activity log is never wiped */
  for(let i=0;i<docs.length;i+=400){
   const batch=cloudDb.batch();
   docs.slice(i,i+400).forEach(d=>batch.delete(d.ref));
@@ -1259,6 +1391,7 @@ function buildPrintSheet(){
  const savedLang=lang;
  const header=(title,sub)=>`<div class="ph"><img class="pl" src="${logo}"><div class="pt"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(sub)}</p></div><img class="pp" src="${photo}"></div>`;
  if(_origTitle===null)_origTitle=document.title;
+ if(mode==="activity"&&CAN_REPORTS){actBuildPrint(el,header);return}
  if(mode==="pm"||mode==="closed"){
   lang="en";
   const title=mode==="pm"?"Rady Trans - Preventive Maintenance Plan & Coverage Report":"Rady Trans - Closed PM Tasks Report | تقرير مهام الصيانة المغلقة";
@@ -1276,9 +1409,9 @@ function buildPrintSheet(){
    const od=list.filter(x=>x.status==="Overdue").length,so=list.length-od,plates=new Set(list.map(x=>normalizePlate(x.plate))).size;
    h=header(title,sub)+`<div class="pstats"><div><b>${list.length}</b><span>Closed tasks / مهام مغلقة</span></div><div><b style="color:#a31d1d">${od}</b><span>Overdue / متأخرة</span></div><div><b style="color:#8a6100">${so}</b><span>Due soon / قريبة الاستحقاق</span></div><div><b>${plates}</b><span>Plates / لوحات</span></div></div>`;
    if(!list.length)h+=`<p>No closed tasks yet. / لا توجد مهام مغلقة بعد.</p>`;
-   else h+=`<table class="closed-table"><thead><tr><th>#</th><th>Plate<br>رقم اللوحة</th><th>Customer<br>العميل</th><th>Type<br>النوع</th><th>Task (English)</th><th>المهمة (عربي)</th><th>Status<br>الحالة</th><th>Overdue / Soon value<br>قيمة التأخير / القرب</th><th>Closed on<br>تاريخ الإغلاق</th><th>Source report<br>التقرير</th></tr></thead><tbody>`+
+   else h+=`<table class="closed-table"><thead><tr><th>#</th><th>Plate<br>رقم اللوحة</th><th>Customer<br>العميل</th><th>Type<br>النوع</th><th>Task (English)</th><th>المهمة (عربي)</th><th>Status<br>الحالة</th><th>Overdue / Soon value<br>قيمة التأخير / القرب</th><th>Closed on<br>تاريخ الإغلاق</th><th>Closed by<br>أغلقها</th><th>Source report<br>التقرير</th></tr></thead><tbody>`+
     list.map((x,i)=>{const st=x.status==="Overdue";const d=new Date(x.closedAt);
-     return `<tr><td>${i+1}</td><td><strong>${escapeHtml(x.plate)}</strong></td><td>${escapeHtml(x.customer||"—")}</td><td>${x.type==="trailer"?"Semi-trailer / مقطورة":"Tractor / رأس"}</td><td dir="ltr">${escapeHtml(x.taskEn||"—")}</td><td dir="rtl">${escapeHtml(x.taskAr||"—")}</td><td><span class="badge ${st?"overdue":"soon"}">${st?"Overdue / متأخرة":x.status?"Due Soon / قريبة":"—"}</span></td><td dir="rtl">${escapeHtml(formatDelay(x.value))}</td><td>${d.toLocaleDateString("en-GB")} ${d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}</td><td>${escapeHtml(x.report)}${x.sheet?` — ${escapeHtml(x.sheet)}`:""}</td></tr>`}).join("")+`</tbody></table>`;
+     return `<tr><td>${i+1}</td><td><strong>${escapeHtml(x.plate)}</strong></td><td>${escapeHtml(x.customer||"—")}</td><td>${x.type==="trailer"?"Semi-trailer / مقطورة":"Tractor / رأس"}</td><td dir="ltr">${escapeHtml(x.taskEn||"—")}</td><td dir="rtl">${escapeHtml(x.taskAr||"—")}</td><td><span class="badge ${st?"overdue":"soon"}">${st?"Overdue / متأخرة":x.status?"Due Soon / قريبة":"—"}</span></td><td dir="rtl">${escapeHtml(formatDelay(x.value))}</td><td>${d.toLocaleDateString("en-GB")} ${d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}</td><td>${escapeHtml(x.closedBy||"—")}</td><td>${escapeHtml(x.report)}${x.sheet?` — ${escapeHtml(x.sheet)}`:""}</td></tr>`}).join("")+`</tbody></table>`;
    h+=foot;
   }
   el.innerHTML=h;
@@ -1318,8 +1451,26 @@ document.addEventListener("DOMContentLoaded",async()=>{
  const pmPrint=()=>{window.printMode="pm";window.print()};
  document.getElementById("printCoverageBtn").onclick=pmPrint;document.getElementById("printPmcBtn").onclick=pmPrint;
  document.getElementById("printClosedBtn").onclick=()=>{window.printMode="closed";window.print()};
+ if(CAN_REPORTS){
+  const am=document.getElementById("actModal");
+  document.getElementById("actOpenBtn").onclick=()=>{actInit();am.classList.remove("hidden")};
+  document.getElementById("actClose").onclick=()=>am.classList.add("hidden");
+  am.addEventListener("click",e=>{if(e.target===am)am.classList.add("hidden")});
+  ["actUser","actFrom","actTo"].forEach(i=>document.getElementById(i).addEventListener("change",()=>{
+   const f=document.getElementById("actFrom"),t=document.getElementById("actTo");
+   if(f.value&&t.value&&f.value>t.value){if(i==="actFrom")t.value=f.value;else f.value=t.value}
+   actRefreshSummary();
+  }));
+  document.getElementById("actToday").onclick=()=>{const d=cairoDay(Date.now());document.getElementById("actFrom").value=d;document.getElementById("actTo").value=d;actRefreshSummary()};
+  document.getElementById("actPrint").onclick=()=>{
+   const sel=document.getElementById("actUser"),f=document.getElementById("actFrom").value,t=document.getElementById("actTo").value;
+   if(!sel.value||!f||!t){alert("اختر المستخدم والتاريخ");return}
+   window.actReport={uid:sel.value,name:sel.options[sel.selectedIndex].textContent,from:f,to:t};
+   am.classList.add("hidden");window.printMode="activity";window.print();
+  };
+ }
  document.getElementById("pmToggleBtn").onclick=()=>{const p=document.getElementById("pmPanel"),b=document.getElementById("pmToggleBtn");const show=p.classList.contains("hidden");p.classList.toggle("hidden",!show);b.setAttribute("aria-expanded",show?"true":"false");if(show){renderFleetSummary();p.scrollIntoView({behavior:"smooth",block:"start"})}};
- document.getElementById("searchBtn").onclick=()=>{const q=document.getElementById("plateInput").value.trim();if(q){chosenPlateKey=null;render(q)}};
+ document.getElementById("searchBtn").onclick=()=>{const q=document.getElementById("plateInput").value.trim();if(q){chosenPlateKey=null;render(q);logSearch()}};
  document.getElementById("plateInput").onkeydown=e=>{if(e.key==="Enter")document.getElementById("searchBtn").click()};
  document.getElementById("clearBtn").onclick=()=>{window.lastView=null;chosenPlateKey=null;document.getElementById("plateChoices").classList.add("hidden");document.getElementById("plateChoices").innerHTML="";document.getElementById("plateInput").value="";document.getElementById("results").classList.add("hidden");document.getElementById("emptyState").classList.remove("hidden")};
  document.getElementById("clearDbBtn").onclick=async()=>{
@@ -1362,8 +1513,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
  (function(){
   const hide=ids=>ids.forEach(i=>{const e=document.getElementById(i);if(e)e.style.display="none"});
   hide(["exportHtmlBtn"]);
-  const CAN_REPORTS=!!(RTS&&RTS.perms&&RTS.perms.indexOf("portal_reports")>=0);
-  if(!CAN_REPORTS){document.querySelectorAll(".files-toggle-wrap,#fileList,.pm-toggle-wrap,#pmPanel").forEach(e=>e.style.setProperty("display","none","important"))}   /* uploaded-sheets list + preventive-maintenance analytics: Menna & Nour only */   /* standalone HTML export is replaced by the shared database */
+  if(!CAN_REPORTS){document.querySelectorAll(".upload,.files-toggle-wrap,#fileList,.pm-toggle-wrap,#pmPanel,#actModal").forEach(e=>e.style.setProperty("display","none","important"))}   /* uploaded-sheets list + preventive-maintenance analytics: Menna & Nour only */   /* standalone HTML export is replaced by the shared database */
   if(!CAN_MANAGE){hide(["uploadAccessBtn","sourceActions","clearDbBtn","editFleetBtn","editPmcBtn"])}
  })();
  await openDb();
